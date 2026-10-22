@@ -49,7 +49,11 @@ def publish(root, repository, commit):
     tag = "v" + current_version(root)
     existing = github_release(repository, tag)
     if existing and not existing["draft"]:
-        print(f"{tag} is already published; its tag and assets are unchanged.")
+        notes = root / f"docs/releases/{tag}.md"
+        if notes.is_file() and existing.get("body", "").replace("\r\n", "\n").strip() != notes.read_text(encoding="utf-8").strip():
+            gh("release", "edit", tag, "--repo", repository, "--notes-file", str(notes))
+            print(f"Updated {tag} release notes.")
+        print(f"{tag} is already published; its tag, assets and pre-release status are unchanged.")
         return
     if existing and existing["target_commitish"] != commit:
         raise ValueError("An existing draft belongs to another commit; refusing to change it")

@@ -24,10 +24,21 @@ def publisher(tmp_path):
 
 def test_published_assets_are_never_replaced(publisher, tmp_path, monkeypatch):
     calls = []
-    monkeypatch.setattr(publisher, "github_release", lambda *_: {"draft": False})
+    monkeypatch.setattr(publisher, "github_release", lambda *_: {"draft": False, "body": "Pre-release"})
     monkeypatch.setattr(publisher, "gh", lambda *args: calls.append(args))
     publisher.publish(tmp_path, "owner/repo", "commit")
     assert not calls
+    assert not (tmp_path / "dist/SHA256SUMS.txt").exists()
+
+
+def test_existing_release_updates_only_changed_notes(publisher, tmp_path, monkeypatch):
+    calls = []
+    monkeypatch.setattr(publisher, "github_release", lambda *_: {"draft": False, "body": "Old instructions"})
+    monkeypatch.setattr(publisher, "gh", lambda *args: calls.append(args))
+    # Updating documentation must not need a new binary or touch the release assets.
+    (tmp_path / "dist/CitrusDrop.exe").unlink()
+    publisher.publish(tmp_path, "owner/repo", "new-docs-commit")
+    assert calls == [("release", "edit", "v0.3.3", "--repo", "owner/repo", "--notes-file", str(tmp_path / "docs/releases/v0.3.3.md"))]
     assert not (tmp_path / "dist/SHA256SUMS.txt").exists()
 
 

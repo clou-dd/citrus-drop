@@ -8,7 +8,7 @@
 
 **[Windows EXE 다운로드](https://github.com/clou-dd/citrus-drop/releases/download/v0.3.3/CitrusDrop.exe)** · [릴리스 안내](https://github.com/clou-dd/citrus-drop/releases/tag/v0.3.3)
 
-Windows 10/11 64비트에서 `CitrusDrop.exe` 하나로 실행합니다. Python 설치나 `_internal` 폴더는 필요하지 않습니다.
+Windows 10/11 64비트에서 다운로드한 `CitrusDrop.exe`를 실행하세요.
 
 ## 사용 방법
 
