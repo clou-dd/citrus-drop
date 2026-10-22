@@ -3,6 +3,11 @@ name = "citrus-drop"
 version = "0.3.0"
 description = "Local drag-and-drop file converter for Windows"
 requires-python = ">=3.11,<3.14"
+license = "MIT"
+authors = [{name = "clou-dd"}]
+
+[project.urls]
+Repository = "https://github.com/clou-dd/citrus-drop"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

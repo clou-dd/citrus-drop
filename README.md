@@ -10,6 +10,14 @@
 
 현재 버전은 **Python + PySide6** 기반이며 이미지·PDF·영상·음성 변환과 ZIP 압축을 지원합니다. 새로운 기능과 사용성 개선을 계속 진행하고 있습니다.
 
+## 제작 및 개발 방식
+
+- 프로젝트 기획·유지관리: [clou-dd](https://github.com/clou-dd)
+- 공식 저장소: [clou-dd/citrus-drop](https://github.com/clou-dd/citrus-drop)
+- 개발 과정의 코드 생성·수정·검증에 **OpenAI Codex**를 활용합니다.
+
+제작 정보는 [AUTHORS.md](AUTHORS.md)에 정리하며, EXE 배포본에는 `_internal/AUTHORS.md`로 포함합니다.
+
 ## 빠른 실행
 
 ### EXE로 실행
@@ -167,12 +175,12 @@ Pretendard v1.3.9 원본은 **SIL Open Font License 1.1**로 배포되며 앱에
 
 ## 라이선스 및 사용 안내
 
-Citrus Drop은 소스 코드를 공개하는 **소스 공개(Source-available)** 프로젝트입니다.
+Citrus Drop은 **MIT 라이선스**로 공개하는 오픈소스 프로젝트입니다.
 
-- 개인적·비상업적 목적의 사용, 복제 및 수정은 허용됩니다.
-- 상업적 이용, 상업적 배포, 유료 제품·서비스에의 통합은 저작권자의 사전 서면 허가가 필요합니다.
-- 소스 공개는 상업적 이용 권한을 자동으로 부여하지 않습니다.
-- 자세한 조건은 [LICENSE](LICENSE)를 확인하세요. 이 정책은 OSI 인증 오픈소스 라이선스가 아닙니다.
+- 개인·회사·상업적 환경에서 사용, 복제, 수정, 재배포 및 판매할 수 있습니다.
+- 소프트웨어의 사본이나 상당 부분을 재배포할 때는 **원래 저작권 고지와 MIT 라이선스 허가 문구를 유지**해야 합니다.
+- 사용한 라이브러리·폰트에는 각각의 라이선스가 적용됩니다. [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 함께 확인하세요.
+- 자세한 조건은 [LICENSE](LICENSE), 제작 정보는 [AUTHORS.md](AUTHORS.md)를 확인하세요.
 
 ## 참고
 

@@ -1,6 +1,8 @@
 # Third-party components
 
-Citrus Drop source is provided under LICENSE.txt (MIT).
+Citrus Drop source is provided under LICENSE (MIT). Project credits and the
+official repository are recorded in AUTHORS.md, including the use of OpenAI
+Codex for development assistance.
 Its dependencies are separate projects with their own licenses:
 
 | Component | Purpose | License information |

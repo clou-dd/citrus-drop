@@ -8,6 +8,10 @@ on:
       - 'assets/**'
       - 'requirements*.txt'
       - 'CitrusDrop.spec'
+      - 'LICENSE'
+      - 'AUTHORS.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - 'pyproject.toml'
       - '.github/workflows/windows-build.yml'
   workflow_dispatch:
 
@@ -43,10 +47,11 @@ jobs:
           python tools/generate_icons.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m PyInstaller --noconfirm CitrusDrop.spec
-      - name: Verify Windows GUI subsystem and embedded icons
+      - name: Verify Windows executable and distribution notices
         shell: python
         run: |
           import pefile
+          from pathlib import Path
           from PIL import Image
           path = 'dist/CitrusDrop/CitrusDrop.exe'
           with pefile.PE(path) as pe:
@@ -55,6 +60,10 @@ jobs:
               assert {3, 14} <= resource_types, 'EXE must contain Windows icon resources'
           with Image.open('assets/icon.ico') as icon:
               assert {(16, 16), (32, 32), (48, 48), (256, 256)} <= icon.ico.sizes()
+          bundled = Path('dist/CitrusDrop/_internal')
+          for name in ('LICENSE', 'AUTHORS.md', 'THIRD_PARTY_NOTICES.md'):
+              assert (bundled / name).read_bytes() == Path(name).read_bytes(), f'Bundled notice mismatch: {name}'
+          assert not (bundled / 'LICENSE.txt').exists(), 'Legacy license file must not remain'
       - name: Packaged EXE startup and conversion smoke test
         run: |
           $app = Start-Process -FilePath 'dist/CitrusDrop/CitrusDrop.exe' -ArgumentList '--smoke-test' -PassThru

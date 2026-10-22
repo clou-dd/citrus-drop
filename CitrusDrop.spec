@@ -7,7 +7,7 @@ if not all((base / "assets" / "fonts" / f"Pretendard-{weight}.otf").is_file()
            for weight in ("Regular", "SemiBold", "Bold")):
     raise FileNotFoundError("Run tools/fetch_fonts.py before building CitrusDrop.spec")
 datas = [(str(base / "assets"), "assets"), (str(base / "THIRD_PARTY_NOTICES.md"), ".")]
-datas += [(str(base / name), ".") for name in ("LICENSE", "LICENSE.txt") if (base / name).is_file()]
+datas += [(str(base / name), ".") for name in ("LICENSE", "AUTHORS.md")]
 datas += collect_data_files("reportlab")
 datas += collect_data_files("pypdfium2") + collect_data_files("pypdfium2_raw")
 for distribution in ("PySide6", "PySide6-Essentials", "shiboken6", "Pillow", "reportlab", "pypdfium2"):
