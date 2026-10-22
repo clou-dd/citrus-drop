@@ -26,17 +26,11 @@
 
 [![Citrus Drop 사용 안내 — 파일 드래그, Shift 원형 메뉴, 변환 결과 확인](docs/demo/citrus-drop-guide.gif)](docs/demo/citrus-drop-guide.mp4)
 
-**24초 · 가로 1080p · 무음** — PDF → JPG와 PNG → PDF 사용 과정을 보여줍니다. 미리보기를 누르거나 [원본 MP4 영상](docs/demo/citrus-drop-guide.mp4)을 열어 확인하세요.
-
-실제 앱의 원형 메뉴와 변환 결과를 활용해 Windows 스타일로 구성한 합성 시연입니다. Windows 실기기 화면 녹화는 아닙니다.
-
 ### 드래그·Shift 원형 메뉴
 
 파일을 끌다가 **Shift**를 누른 뒤 원하는 형식 위에 놓으면 변환합니다.
 
 <img src="docs/screenshots/radial-menu.png" alt="샘플 이미지 두 개를 받은 원형 메뉴에서 PDF 만들기 강조" width="380">
-
-원형 메뉴 캡처는 v0.3.2 앱의 Linux Qt offscreen 실행 화면이며, 샘플 파일을 담은 Qt 드롭 이벤트로 표시했습니다.
 
 ## 진행 예정
 
