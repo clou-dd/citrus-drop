@@ -16,3 +16,4 @@ obj/
 *.log
 .citrus-drop-*/
 tools/ffmpeg
+assets/fonts/*.otf

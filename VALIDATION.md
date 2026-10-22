@@ -4,10 +4,11 @@
 
 - 별도의 깨끗한 Python 3.12 가상환경에 requirements-dev.txt를 설치했습니다.
 - `pip check`가 통과했습니다. PySide6 6.8.3, Pillow 12.3.0, pypdfium2 5.14.0, ReportLab 4.4.9를 사용했습니다.
-- 자동 테스트 **38개가 통과**했습니다. 테스트 프로세스도 종료 코드 0으로 정상 종료했습니다. 창 없는 실행의 시작 실패 로그와 종료 코드 처리도 검사했습니다.
+- 자동 테스트 **39개가 통과**했습니다. 테스트 프로세스도 종료 코드 0으로 정상 종료했습니다. 창 없는 실행의 시작 실패 로그와 종료 코드 처리도 검사했습니다.
 - 소스 앱의 `python main.py --smoke-test`가 통과했습니다. Qt 화면을 초기화하고 임시 이미지 → PDF → PNG 변환·디코딩을 실행한 뒤 정상 종료했습니다.
 - PyInstaller로 Linux용 폴더 패키지를 실제 빌드했고, 패키지 실행 파일의 `--smoke-test`도 통과했습니다. Qt·PDFium·ReportLab 리소스가 포함되는지 실행으로 확인했습니다.
 - 기본 창·원형 메뉴를 실제 렌더링해 한글 표시와 배치, 항목 강조를 확인했습니다. 투명 메뉴를 다시 그릴 때 안내 글자가 겹치던 문제를 수정했습니다.
+- Pretendard 원본 Regular·SemiBold·Bold를 앱 전용으로 로드하고 한글·영문·숫자 글리프와 실제 SemiBold 선택을 검사했습니다. 기본 창·원형 메뉴의 크기와 굵기를 맞췄고, 폰트 라이선스를 배포에 포함했습니다.
 - 생성한 PDF를 렌더링해 A4 가로/세로 방향, 이미지 비율·순서·여백을 확인했습니다.
 - 기존 C# 코드를 현재 소스에서 제거하고 Python 실행·설치·빌드 안내로 정리했습니다. 과거 버전은 Git 이력에 남습니다.
 - 프로젝트 SVG를 렌더링한 PNG를 확인했고, ICO의 16·24·32·48·64·128·256px 이미지 포함을 검사했습니다. 창·트레이·EXE에 같은 로고를 연결했습니다.
@@ -51,6 +52,7 @@ Windows용 실행 파일은 GitHub의 Windows 러너에서 빌드·실행 검사
 
 ```powershell
 .venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe tools\fetch_fonts.py
 .venv\Scripts\python.exe -m pytest -q
 .venv\Scripts\python.exe main.py --smoke-test
 ```

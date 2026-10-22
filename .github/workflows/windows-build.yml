@@ -32,6 +32,8 @@ jobs:
           cache-dependency-path: requirements*.txt
       - name: Install dependencies
         run: python -m pip install -r requirements-dev.txt
+      - name: Prepare bundled Pretendard font
+        run: python tools/fetch_fonts.py
       - name: Test
         run: python -m pytest -q
       - name: Source startup and conversion smoke test

@@ -25,7 +25,7 @@ EXE 옆의 `_internal` 폴더도 함께 유지하세요. 아이콘·Qt·PDF 엔�
 Windows 10/11 **64비트**, Python **3.11~3.13**이 필요합니다. 검증에 사용한 Python은 3.12입니다.
 
 1. 저장소를 내려받아 압축을 모두 해제하세요.
-2. 처음에는 `Setup.cmd`를 실행하세요. `.venv` 가상환경을 만들고 `requirements.txt`의 패키지를 설치합니다. 최초 설치에는 인터넷이 필요합니다.
+2. 처음에는 `Setup.cmd`를 실행하세요. `.venv` 가상환경을 만들고 패키지와 Pretendard 폰트를 준비합니다. 최초 설치에는 인터넷이 필요합니다.
 3. `Start.cmd`를 실행하세요. 또는 `.venv\Scripts\python.exe main.py`로 실행할 수 있습니다.
 4. 소스를 업데이트한 뒤에는 `Setup.cmd`를 다시 실행하여 의존성을 맞춰 주세요.
 
@@ -38,6 +38,7 @@ Windows 10/11 **64비트**, Python **3.11~3.13**이 필요합니다. 검증에 �
 ```powershell
 py -3.12 -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe tools\fetch_fonts.py
 .venv\Scripts\python.exe main.py
 ```
 
@@ -120,6 +121,14 @@ GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아�
 
 프로젝트 로고 `assets/citrus-drop.svg`를 앱 창·트레이·EXE 아이콘에 연결했습니다. `tools/generate_icons.py`가 `assets/logo.png`와 여러 크기가 들어 있는 `assets/icon.ico`를 생성합니다. `build.cmd`와 GitHub 빌드에서 자동 실행합니다. 자세한 내용은 `assets/README.md`를 참고하세요.
 
+## 폰트
+
+기본 창·원형 메뉴·트레이 메뉴는 **Pretendard**를 사용합니다. 본문 14px, 보조 설명 12px, 주요 제목 28px를 기준으로 Regular·SemiBold·Bold 굵기를 구분했습니다. 앱에 폰트가 포함되어 사용자 PC에 별도로 설치할 필요가 없습니다.
+
+Pretendard v1.3.9 원본은 **SIL Open Font License 1.1**로 배포되며 앱에 포함한 배포와 상업적 사용이 허용됩니다. 폰트는 수정하지 않았으며, 원본 저작권 고지와 라이선스는 `assets/fonts/OFL.txt`에 포함합니다. 폰트의 OFL은 앱 소스의 라이선스와 별도로 유지됩니다.
+
+소스 설치·빌드 시 공식 저장소의 고정된 버전에서 원본 OTF 3개를 받아 SHA-256을 확인합니다. 앱 실행 중에는 폰트를 다운로드하거나 시스템에 설치하지 않습니다. 자세한 출처는 `assets/fonts/README.md`를 참고하세요.
+
 ## 소스 구조
 
 | 파일 | 수정할 내용 |
@@ -133,6 +142,8 @@ GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아�
 | `citrus_drop/pdf_tools.py` | 이미지 PDF, PDF 페이지 이미지·문자 추출 |
 | `citrus_drop/jobs.py` | 일괄 처리·취소·작업 기록 |
 | `citrus_drop/storage.py` | 결과 이름 충돌 방지·설정·임시 파일 |
+| `citrus_drop/typography.py` | 앱 내 Pretendard 로딩·기본 글꼴 |
+| `tools/fetch_fonts.py` | 설치·빌드 시 공식 원본 폰트 준비·해시 확인 |
 | `CitrusDrop.spec` | EXE 패키징 구성 |
 
 ## 테스트

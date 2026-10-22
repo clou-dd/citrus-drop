@@ -15,12 +15,12 @@ from .storage import Settings
 
 ORANGE = "#FFAA5C"
 STYLESHEET = """
-QWidget { background: #10151E; color: #F2F4F8; font-size: 13px; }
+QWidget { background: #10151E; color: #F2F4F8; font-size: 14px; }
 QLabel { background: transparent; }
 QPushButton { background: #2A3547; border: 1px solid #3D495D; border-radius: 7px; padding: 8px 13px; }
 QPushButton:hover { background: #3A4961; }
 QPushButton:disabled { color: #758094; background: #202938; border-color: #293345; }
-QPushButton#run { background: #FFAA5C; color: #171D26; font-weight: bold; font-size: 15px; padding: 12px; }
+QPushButton#run { background: #FFAA5C; color: #171D26; font-weight: 600; font-size: 15px; padding: 12px; }
 QPushButton#run:hover { background: #FFBB7E; }
 QPushButton#run:disabled { background: #66513D; color: #B5A18D; }
 QListWidget { background: #151C28; border: 1px solid #2D3747; border-radius: 7px; padding: 6px; }
@@ -58,7 +58,7 @@ class DropArea(QFrame):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(22, 20, 22, 20)
         heading = QLabel("여기로 파일을 끌어 놓으셔도 됩니다")
-        heading.setStyleSheet("font-size: 17px; font-weight: bold;")
+        heading.setStyleSheet("font-size: 17px; font-weight: 600;")
         layout.addWidget(heading)
         hint = QLabel("이미지 · PDF · 영상 · 음성 · ZIP 압축")
         hint.setStyleSheet("color: #A9B3C4;")
@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
         self.files: list[Path] = []
         self.busy = False
         self.allow_close = False
-        self.setWindowTitle("Citrus Drop 0.3 · Python")
+        self.setWindowTitle("Citrus Drop")
         self.resize(800, 900)
         self.setMinimumSize(650, 660)
         self.setStyleSheet(STYLESHEET)
@@ -111,7 +111,7 @@ class MainWindow(QMainWindow):
         brand.setStyleSheet(f"color: {ORANGE}; font-weight: bold; letter-spacing: 2px;")
         layout.addWidget(brand)
         heading = QLabel("파일을 놓으면, 변환됩니다.")
-        heading.setStyleSheet("font-size: 28px; font-weight: bold;")
+        heading.setStyleSheet("font-size: 28px; font-weight: 600;")
         layout.addWidget(heading)
         layout.addWidget(self.label("탐색기에서 파일을 끌다가 Shift를 누르고, 원형 메뉴의 형식 위에 놓으세요."))
         self.gesture_checkbox = QCheckBox("Shift 원형 메뉴 사용")
@@ -176,7 +176,7 @@ class MainWindow(QMainWindow):
     def label(text, small=False):
         label = QLabel(text)
         label.setWordWrap(True)
-        label.setStyleSheet("color: #A9B3C4;" + ("font-size: 11px;" if small else ""))
+        label.setStyleSheet("color: #A9B3C4;" + ("font-size: 12px;" if small else ""))
         return label
 
     def add_files(self, files):
@@ -386,7 +386,7 @@ class WheelWindow(QWidget):
                 painter.fillPath(path, QColor(ORANGE if active else "#232B39"))
                 x, y = self.center + 121 * math.cos(angle), self.center + 121 * math.sin(angle)
                 self._text(painter, operation.label, x, y - 8, 13, "#171D26" if active else "#FFFFFF", True)
-                self._text(painter, "놓아서 실행" if active else "변환 / 작업", x, y + 16, 9, "#57402A" if active else "#9BA6B8")
+                self._text(painter, "놓아서 실행" if active else "변환 / 작업", x, y + 16, 11, "#57402A" if active else "#9BA6B8")
         self._text(painter, f"{len(self.files)}개 파일" if self.files else "CITRUS", self.center, self.center - 16, 13, ORANGE, True)
         label = self.operations[self.hover].label if self.hover >= 0 else "SHIFT + DROP"
         self._text(painter, label, self.center, self.center + 11, 10, "#FFFFFF")
@@ -398,8 +398,8 @@ class WheelWindow(QWidget):
     @staticmethod
     def _text(painter, text, x, y, size, color, bold=False):
         painter.setPen(QColor(color))
-        font = QFont()
+        font = QFont(painter.font())
         font.setPixelSize(size)
-        font.setBold(bold)
+        font.setWeight(QFont.Weight.DemiBold if bold else QFont.Weight.Normal)
         painter.setFont(font)
         painter.drawText(QRectF(x - 92, y - 15, 184, 30), Qt.AlignmentFlag.AlignCenter, text)

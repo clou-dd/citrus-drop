@@ -19,5 +19,11 @@ if not exist .venv\Scripts\python.exe (
 )
 .venv\Scripts\python.exe -m pip install --disable-pip-version-check -r requirements.txt
 set "setup_result=%errorlevel%"
+if not "%setup_result%"=="0" (
+  popd
+  exit /b %setup_result%
+)
+.venv\Scripts\python.exe tools\fetch_fonts.py
+set "setup_result=%errorlevel%"
 popd
 exit /b %setup_result%

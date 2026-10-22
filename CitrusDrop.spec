@@ -3,6 +3,9 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, collect_submodules, copy_metadata
 
 base = Path(SPECPATH)
+if not all((base / "assets" / "fonts" / f"Pretendard-{weight}.otf").is_file()
+           for weight in ("Regular", "SemiBold", "Bold")):
+    raise FileNotFoundError("Run tools/fetch_fonts.py before building CitrusDrop.spec")
 datas = [(str(base / "assets"), "assets"), (str(base / "THIRD_PARTY_NOTICES.md"), ".")]
 datas += [(str(base / name), ".") for name in ("LICENSE", "LICENSE.txt") if (base / name).is_file()]
 datas += collect_data_files("reportlab")

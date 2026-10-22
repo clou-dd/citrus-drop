@@ -11,6 +11,7 @@ Its dependencies are separate projects with their own licenses:
 | PDFium and its dependencies | PDF rendering and text | BSD-style and individual third-party licenses in pypdfium2's distribution |
 | ReportLab | PDF creation | BSD license and bundled data/font notices |
 | PyInstaller | Build tool | GPL with bootloader exception; see the PyInstaller distribution |
+| Pretendard v1.3.9 by Kil Hyung-jin | Application UI typeface | SIL Open Font License 1.1; full copyright and license in assets/fonts/OFL.txt |
 
 The packaging specification copies installed package metadata and the PDFium
 package's data/license files. Keep those notices and the supplied shared
@@ -20,7 +21,9 @@ complete license terms for your chosen distribution.
 FFmpeg is optional and is not included or downloaded by Citrus Drop. Its
 license depends on the FFmpeg build and enabled libraries. Users select their
 own local executable. Network access is used by Setup.cmd/build.cmd to install
-Python dependencies; conversion itself does not upload files.
+Python dependencies and download the original Pretendard font; conversion itself
+does not upload files. The font is bundled unchanged and retains its own OFL
+license, independently of the application source license.
 
 Sources:
 - https://doc.qt.io/qtforpython-6/licenses.html
@@ -28,3 +31,4 @@ Sources:
 - https://github.com/pypdfium2-team/pypdfium2
 - https://www.reportlab.com/
 - https://pyinstaller.org/
+- https://github.com/orioncactus/pretendard/tree/v1.3.9

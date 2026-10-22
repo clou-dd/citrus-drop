@@ -13,6 +13,7 @@ from .jobs import BatchResult, run_batch
 from .models import available_operations
 from .native import GestureState, WindowsInput
 from .storage import Settings, app_directory
+from .typography import configure_typography
 from .ui import MainWindow, WheelWindow, STYLESHEET
 
 
@@ -233,7 +234,7 @@ def main(argv=None) -> int:
     app.setApplicationName("CitrusDrop")
     app.setOrganizationName("CitrusDrop")
     app.setQuitOnLastWindowClosed(False)
-    app.setFont(QFont("Malgun Gothic", 10))
+    font_family = configure_typography(app)
     settings = Settings()
     settings.directory.mkdir(parents=True, exist_ok=True)
     lock = QLockFile(str(settings.directory / "app.lock"))
@@ -246,6 +247,8 @@ def main(argv=None) -> int:
             from PIL import Image
             from .pdf_tools import images_to_pdf, convert_pdf
             try:
+                if not font_family.startswith("Pretendard"):
+                    raise RuntimeError("Bundled Pretendard could not be loaded. Run Setup.cmd first.")
                 with tempfile.TemporaryDirectory(prefix="CitrusDropSmoke_") as temporary:
                     source = Path(temporary) / "smoke.png"
                     with Image.new("RGB", (32, 24), "orange") as image:
