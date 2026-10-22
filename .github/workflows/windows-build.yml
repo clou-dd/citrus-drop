@@ -1,0 +1,73 @@
+name: Windows EXE
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.py'
+      - 'assets/**'
+      - 'requirements*.txt'
+      - 'CitrusDrop.spec'
+      - '.github/workflows/windows-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+          architecture: x64
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - name: Install dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Test
+        run: python -m pytest -q
+      - name: Source startup and conversion smoke test
+        run: python main.py --smoke-test
+      - name: Generate logo and build console-free EXE
+        run: |
+          python tools/generate_icons.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m PyInstaller --noconfirm CitrusDrop.spec
+      - name: Verify Windows GUI subsystem and embedded icons
+        shell: python
+        run: |
+          import pefile
+          from PIL import Image
+          path = 'dist/CitrusDrop/CitrusDrop.exe'
+          with pefile.PE(path) as pe:
+              assert pe.OPTIONAL_HEADER.Subsystem == 2, 'EXE must use the Windows GUI subsystem'
+              resource_types = {entry.id for entry in pe.DIRECTORY_ENTRY_RESOURCE.entries}
+              assert {3, 14} <= resource_types, 'EXE must contain Windows icon resources'
+          with Image.open('assets/icon.ico') as icon:
+              assert {(16, 16), (32, 32), (48, 48), (256, 256)} <= icon.ico.sizes()
+      - name: Packaged EXE startup and conversion smoke test
+        run: |
+          $app = Start-Process -FilePath 'dist/CitrusDrop/CitrusDrop.exe' -ArgumentList '--smoke-test' -PassThru
+          if (-not $app.WaitForExit(60000)) {
+            $app.Kill()
+            throw 'EXE smoke test timed out'
+          }
+          if ($app.ExitCode -ne 0) {
+            Get-Content "$env:LOCALAPPDATA/CitrusDrop/startup-error.log" -ErrorAction SilentlyContinue
+            throw "EXE smoke test failed: $($app.ExitCode)"
+          }
+      - name: Upload portable application folder
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: CitrusDrop-windows-x64
+          path: dist/CitrusDrop/
+          if-no-files-found: error
+          retention-days: 30

@@ -17,10 +17,10 @@ from .ui import MainWindow, WheelWindow, STYLESHEET
 
 
 def application_icon() -> QIcon:
-    """나중에 만든 로고는 assets/icon.ico 또는 assets/logo.png로 넣으면 됩니다."""
+    """EXE·창·트레이에 같은 프로젝트 로고를 사용합니다."""
     roots = [app_directory() / "assets", Path(getattr(sys, "_MEIPASS", app_directory())) / "assets"]
     for root in roots:
-        for name in ("icon.ico", "logo.png"):
+        for name in ("icon.ico", "logo.png", "citrus-drop.svg"):
             if (root / name).is_file():
                 icon = QIcon(str(root / name))
                 if not icon.isNull():

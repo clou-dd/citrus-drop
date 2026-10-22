@@ -12,6 +12,16 @@
 
 ## 빠른 실행
 
+### EXE로 실행
+
+1. [Windows EXE 빌드](https://github.com/clou-dd/citrus-drop/actions/workflows/windows-build.yml)에서 최신 성공한 실행을 여세요.
+2. 아래쪽 **Artifacts → CitrusDrop-windows-x64**를 내려받으세요. GitHub 로그인이 필요할 수 있습니다.
+3. ZIP을 **모두 압축 해제**하고 `CitrusDrop.exe`를 실행하세요. Python 설치나 CMD 창 없이 실행됩니다.
+
+EXE 옆의 `_internal` 폴더도 함께 유지하세요. 아이콘·Qt·PDF 엔진이 포함되어 있습니다. 처음 빌드가 진행 중이면 완료 후 내려받을 수 있습니다.
+
+### Python 소스로 실행
+
 Windows 10/11 **64비트**, Python **3.11~3.13**이 필요합니다. 검증에 사용한 Python은 3.12입니다.
 
 1. 저장소를 내려받아 압축을 모두 해제하세요.
@@ -19,7 +29,9 @@ Windows 10/11 **64비트**, Python **3.11~3.13**이 필요합니다. 검증에 �
 3. `Start.cmd`를 실행하세요. 또는 `.venv\Scripts\python.exe main.py`로 실행할 수 있습니다.
 4. 소스를 업데이트한 뒤에는 `Setup.cmd`를 다시 실행하여 의존성을 맞춰 주세요.
 
-소스 실행 시 콘솔 창이 함께 열립니다. 콘솔 없이 배포하려면 아래의 EXE 빌드를 사용하세요. 이미 Python 3.14 이상이 기본으로 지정돼 있다면 `py -3.12 -m venv .venv`처럼 지원 버전으로 가상환경을 먼저 만든 뒤 Setup.cmd를 실행하세요.
+`Start.cmd`는 `pythonw.exe`를 별도 프로세스로 실행하고 돌아옵니다. 더블클릭할 때 CMD 창이 잠깐 나타날 수 있지만 앱이 종료될 때까지 남아 있지는 않습니다. 최초 설치·설치 오류를 표시하는 동안에는 콘솔 창이 유지됩니다. 시작 오류는 `%LOCALAPPDATA%\CitrusDrop\startup-error.log`에서 확인할 수 있습니다. 콘솔에서 직접 오류를 확인하려면 `.venv\Scripts\python.exe main.py`로 실행하세요.
+
+이미 Python 3.14 이상이 기본으로 지정돼 있다면 `py -3.12 -m venv .venv`처럼 지원 버전으로 가상환경을 먼저 만든 뒤 Setup.cmd를 실행하세요.
 
 직접 설치하는 경우:
 
@@ -96,6 +108,8 @@ FFmpeg는 포함하거나 자동 다운로드하지 않습니다. 실제 코덱 
 
 **Windows에서** `build.cmd`를 실행하세요. 패키지를 설치하고 PyInstaller로 `dist/CitrusDrop/CitrusDrop.exe`를 만듭니다.
 
+GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아이콘 생성·빌드·EXE 실행 검사를 수행하고 배포 폴더를 Artifacts로 제공합니다. 소스 변경 시 자동 실행되며 Actions에서 `Run workflow`로 다시 빌드할 수도 있습니다.
+
 - 사용자 PC에 Python을 별도 설치하지 않고 배포할 수 있도록 만드는 구성입니다.
 - EXE 한 개만 복사하지 말고 **CitrusDrop 폴더 전체**를 전달해야 합니다. Qt·PDFium 라이브러리와 데이터가 함께 필요합니다.
 - FFmpeg는 별도로 선택하거나 EXE 옆 `tools` 폴더에 배치합니다.
@@ -104,7 +118,7 @@ FFmpeg는 포함하거나 자동 다운로드하지 않습니다. 실제 코덱 
 
 ## 로고
 
-프로젝트 로고는 `assets/citrus-drop.svg`에 있습니다. 현재 앱의 창·트레이 아이콘은 `assets/logo.png` 또는 `assets/icon.ico`를 사용하며, EXE 아이콘은 `assets/icon.ico`가 있어야 적용됩니다. 자세한 내용은 `assets/README.md`를 참고하세요.
+프로젝트 로고 `assets/citrus-drop.svg`를 앱 창·트레이·EXE 아이콘에 연결했습니다. `tools/generate_icons.py`가 `assets/logo.png`와 여러 크기가 들어 있는 `assets/icon.ico`를 생성합니다. `build.cmd`와 GitHub 빌드에서 자동 실행합니다. 자세한 내용은 `assets/README.md`를 참고하세요.
 
 ## 소스 구조
 

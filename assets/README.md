@@ -1,6 +1,8 @@
-# 로고 넣기
+# 프로젝트 로고
 
-- `assets/logo.png`: 앱 창과 트레이에서 사용할 로고입니다. 투명 배경의 정사각형 PNG를 권장합니다.
-- `assets/icon.ico`: 있으면 PNG보다 우선 사용합니다. EXE 파일 아이콘에도 적용하려면 이 파일을 넣은 뒤 `build.cmd`로 다시 빌드하세요.
-- 로고가 없으면 주황색 원 안에 C를 표시한 임시 아이콘을 사용합니다.
+- `assets/citrus-drop.svg`: 로고 원본입니다.
+- `assets/logo.png`: SVG에서 생성한 512px PNG입니다.
+- `assets/icon.ico`: 같은 SVG에서 생성한 16·24·32·48·64·128·256px Windows 아이콘입니다. 앱 창·트레이·EXE 파일에서 사용합니다.
+- 로고를 수정하면 `.venv\Scripts\python.exe tools\generate_icons.py`로 PNG/ICO를 다시 만드세요. `build.cmd`와 GitHub Windows 빌드에서도 자동 생성합니다.
+- EXE 파일에 포함된 아이콘을 바꾸려면 다시 빌드해야 합니다. 앱은 ICO → PNG → SVG 순서로 읽고, 모두 없으면 임시 C 아이콘을 표시합니다.
 - 소스 실행에서는 프로젝트의 assets 폴더를 읽습니다. 패키지에는 이 폴더가 포함됩니다. EXE 옆에 assets 폴더를 별도로 두면 해당 로고를 우선 읽습니다.

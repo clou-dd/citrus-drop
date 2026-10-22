@@ -4,6 +4,7 @@ from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, co
 
 base = Path(SPECPATH)
 datas = [(str(base / "assets"), "assets"), (str(base / "THIRD_PARTY_NOTICES.md"), ".")]
+datas += [(str(base / name), ".") for name in ("LICENSE", "LICENSE.txt") if (base / name).is_file()]
 datas += collect_data_files("reportlab")
 datas += collect_data_files("pypdfium2") + collect_data_files("pypdfium2_raw")
 for distribution in ("PySide6", "PySide6-Essentials", "shiboken6", "Pillow", "reportlab", "pypdfium2"):
@@ -23,6 +24,8 @@ a = Analysis(
 )
 pyz = PYZ(a.pure)
 icon_path = base / "assets" / "icon.ico"
+if not icon_path.is_file():
+    raise FileNotFoundError("Run tools/generate_icons.py before building CitrusDrop.spec")
 exe = EXE(
     pyz, a.scripts, [],
     exclude_binaries=True,
@@ -32,6 +35,6 @@ exe = EXE(
     strip=False,
     upx=False,
     console=False,
-    icon=str(icon_path) if icon_path.exists() else None,
+    icon=str(icon_path),
 )
 coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="CitrusDrop")

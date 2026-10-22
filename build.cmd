@@ -13,6 +13,12 @@ if errorlevel 1 (
   popd
   exit /b 1
 )
+.venv\Scripts\python.exe tools\generate_icons.py
+if errorlevel 1 (
+  pause
+  popd
+  exit /b 1
+)
 .venv\Scripts\python.exe -m PyInstaller --noconfirm CitrusDrop.spec
 set "build_result=%errorlevel%"
 if "%build_result%"=="0" echo Build complete: dist\CitrusDrop\CitrusDrop.exe

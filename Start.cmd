@@ -10,7 +10,13 @@ if not exist .venv\Scripts\python.exe (
     exit /b 1
   )
 )
-.venv\Scripts\python.exe main.py
+if not exist .venv\Scripts\pythonw.exe (
+  echo pythonw.exe is missing. Delete .venv and run Setup.cmd again.
+  pause
+  popd
+  exit /b 1
+)
+start "" "%~dp0.venv\Scripts\pythonw.exe" "%~dp0main.py"
 set "run_result=%errorlevel%"
 if not "%run_result%"=="0" pause
 popd
