@@ -15,10 +15,10 @@
 
 | 구분 | 입력 | 출력 / 동작 | 준비 |
 | --- | --- | --- | --- |
-| 이미지 | PNG, JPG/JPEG, BMP, TIFF/TIF, GIF, WebP | PNG, JPG, BMP, TIFF, 정지 GIF, WebP | Python 패키지 설치 |
-| 이미지 PDF | 위 이미지 하나 또는 여러 개 | 목록 순서대로 하나의 PDF | Python 패키지 설치 |
-| PDF 이미지화 | PDF | 모든 페이지를 PNG/JPG로 저장 | Python 패키지 설치 |
-| PDF 문자 추출 | 문자가 들어 있는 PDF | UTF-8 TXT | Python 패키지 설치 |
+| 이미지 | PNG, JPG/JPEG, BMP, TIFF/TIF, GIF, WebP | PNG, JPG, BMP, TIFF, 정지 GIF, WebP | EXE 기본 지원 |
+| 이미지 PDF | 위 이미지 하나 또는 여러 개 | 목록 순서대로 하나의 PDF | EXE 기본 지원 |
+| PDF 이미지화 | PDF | 모든 페이지를 PNG/JPG로 저장 | EXE 기본 지원 |
+| PDF 문자 추출 | 문자가 들어 있는 PDF | UTF-8 TXT | EXE 기본 지원 |
 | 영상 | MP4, MOV, MKV, WebM, AVI, WMV, M4V | MP4, WebM, MP3, WAV, FLAC, OGG | FFmpeg 선택 |
 | 음성 | MP3, M4A, WAV, FLAC, OGG, Opus, AIFF/AIF, WMA | MP3, WAV, FLAC, OGG | FFmpeg 선택 |
 | 압축 | 선택한 일반 파일 | 하나의 ZIP | 추가 준비 없음 |

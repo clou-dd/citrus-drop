@@ -28,7 +28,7 @@ py -3.12 -m venv .venv
 
 **Windows에서** `build.cmd`를 실행하세요. 패키지를 설치하고 PyInstaller로 `dist/CitrusDrop.exe`를 만듭니다.
 
-GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아이콘 생성·빌드·EXE 실행 검사를 수행하고 단일 EXE를 Artifacts로 제공하고, 검증 성공 후 새 버전이면 Releases에 프리릴리즈로 게시합니다. EXE만 새 폴더에 복사한 뒤 내장 폰트·이미지 → PDF → PNG 변환·종료까지 검사합니다. 소스 변경 시 자동 실행되며 Actions에서 `Run workflow`로 다시 빌드할 수도 있습니다.
+GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아이콘 생성·빌드·EXE 실행 검사를 수행합니다. 단일 EXE를 Artifacts로 제공하며, 검증 성공 후 새 버전이면 Releases에 프리릴리즈로 게시합니다. EXE만 새 폴더에 복사한 뒤 내장 폰트·이미지 → PDF → PNG 변환·종료까지 검사합니다. 소스 변경 시 자동 실행되며 Actions에서 `Run workflow`로 다시 빌드할 수도 있습니다.
 
 - 사용자 PC에 Python을 별도 설치하지 않고 배포할 수 있도록 만드는 구성입니다.
 - **`CitrusDrop.exe` 하나만 전달하면 됩니다.** Qt·PDFium·라이브러리 데이터·폰트는 EXE 내부에 포함합니다.
