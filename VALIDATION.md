@@ -12,7 +12,9 @@
 - 기존 C# 코드를 현재 소스에서 제거하고 Python 실행·설치·빌드 안내로 정리했습니다. 과거 버전은 Git 이력에 남습니다.
 - 프로젝트 SVG를 렌더링한 PNG를 확인했고, ICO의 16·24·32·48·64·128·256px 이미지 포함을 검사했습니다. 창·트레이·EXE에 같은 로고를 연결했습니다.
 - `Start.cmd`는 `start`와 `pythonw.exe`로 실행하고 돌아오도록 수정했습니다. 설치 실패 시에만 오류를 볼 수 있도록 콘솔을 유지합니다.
-- GitHub Actions의 Windows x64 빌드·테스트·EXE 실행 검사·배포 폴더 업로드를 추가했습니다. 실제 실행 결과는 저장소의 `Windows EXE` 워크플로에서 확인할 수 있습니다.
+- [GitHub Actions Windows x64 검사](https://github.com/clou-dd/citrus-drop/actions/runs/39725250534)가 성공했습니다. Python 3.12에서 **37개 통과, 1개 건너뜀**입니다. FFmpeg 미설치로 선택적 실제 음성 변환 검사만 건너뛰었습니다.
+- Windows용 `CitrusDrop.exe`를 실제 빌드했습니다. PE GUI 서브시스템(콘솔 없음)과 내장 아이콘 리소스를 검사했고, 패키지 EXE의 `--smoke-test`가 통과했습니다. 임시 이미지 → PDF → PNG 변환과 앱 초기화·정상 종료를 확인했습니다.
+- Windows 빌드 폴더를 `CitrusDrop-windows-x64` 아티팩트로 업로드했습니다. 위 실행 페이지에서 내려받을 수 있습니다. 보관 기간은 30일이며 새 빌드로 갱신할 수 있습니다.
 
 ## 테스트 범위
 
@@ -33,6 +35,7 @@ Qt 테스트와 렌더링은 Linux의 offscreen 플랫폼에서 실행했습니�
 
 ## 남은 Windows 실기기 검사
 
+- [x] Windows x64 CI에서 EXE 빌드·아이콘 리소스·콘솔 없음·시작/변환/종료 검사
 - [ ] Windows x64의 Setup.cmd / Start.cmd 실행
 - [ ] build.cmd로 Windows EXE 빌드 후 폴더 전체에서 실행
 - [ ] Windows API 입력 감지와 탐색기 실제 파일 드래그 중 Shift 메뉴 표시
@@ -42,7 +45,7 @@ Qt 테스트와 렌더링은 Linux의 offscreen 플랫폼에서 실행했습니�
 - [ ] 선택한 Windows FFmpeg 배포본의 코덱·한글 경로
 - [ ] Windows 탐색기·작업 표시줄에서 프로젝트 로고 표시
 
-Windows용 실행 파일은 Linux에서 빌드하지 않았습니다. 저장소의 build.cmd와 CitrusDrop.spec는 Windows에서 해당 EXE를 만들기 위한 구성입니다. Linux 패키지 테스트 성공을 Windows EXE 검증 성공으로 해석하면 안 됩니다.
+Windows용 실행 파일은 GitHub의 Windows 러너에서 빌드·실행 검사했습니다. 자동 GUI 검사는 offscreen 환경이며, 탐색기에서의 실제 드래그·트레이·작업 표시줄 표시와 사용자 PC의 설치/시작 스크립트 검사는 별도로 남아 있습니다.
 
 ## 재현
 
