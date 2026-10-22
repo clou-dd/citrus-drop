@@ -14,7 +14,7 @@
 
 | 버전 | 날짜 | 통합 변경 내용 | 커밋 이력 |
 | --- | --- | --- | --- |
-| **v0.3.1 · 현재** | 2026-10-22 | 스크롤해도 보이는 `창 닫기`·`프로그램 종료` 버튼, 트레이 동작 안내, 진행 예정 기능 정리 | [현재 개발 이력](https://github.com/clou-dd/citrus-drop/commits/main) |
+| **v0.3.1 · 현재** | 2026-10-22 | 스크롤해도 보이는 `창 닫기`·`프로그램 종료` 버튼, 트레이 동작 안내, 진행 예정 기능 정리 | [v0.3.1 변경](https://github.com/clou-dd/citrus-drop/commit/e51ee7752532f243fb7870c607ffaff9a168bb78) |
 | **v0.3.0** | 2026-10-22 | Python·PySide6 전환, 로고와 Windows EXE 배포, 콘솔 실행 개선, Pretendard 적용, MIT 라이선스·제작 정보 정리 | [9개 커밋](https://github.com/clou-dd/citrus-drop/compare/8e61ad63bf280e85d8508f39106b5f3f11613c59...3a34047a1d4f478e863ad8c3414222829fbd3a00) |
 | **v0.2 · 초기 Windows 버전** | 2026-10-22 | 초기 사용 안내와 C#·WPF 앱 구현, Shift 원형 메뉴·트레이, 이미지·PDF·영상·음성 변환과 ZIP 압축 | [초기 2개 커밋](https://github.com/clou-dd/citrus-drop/commits/8e61ad63bf280e85d8508f39106b5f3f11613c59) |
 
@@ -25,14 +25,14 @@
 - 트레이를 사용할 수 없는 환경에서는 창을 닫을 때 앱도 종료하며, 해당 동작을 화면에 안내합니다.
 - 아래에 이미지 편집·변환 설정·PDF 확장 등의 개발 방향을 정리했습니다.
 
+v0.3.1의 Windows 자동 검사에서는 **41개 통과·1개 건너뜀**을 확인했습니다. 닫기·종료 동작과 EXE 실행·내장 폰트·PDF 변환·배포 고지 파일 검사가 통과했습니다. 건너뛴 항목은 FFmpeg 미설치에 따른 선택적 음성 변환 검사입니다. [v0.3.1 검증 결과](https://github.com/clou-dd/citrus-drop/actions/runs/39736367475)
+
 ### v0.3.0 변경 과정
 
 - **MIT·제작 정보 정리**: 상업적 이용 제한을 제거하고 MIT로 통일했습니다. 제작자 `clou-dd`·공식 저장소·OpenAI Codex 활용 사실을 명시하고, EXE 패키지에 라이선스와 제작 정보를 포함했습니다. [변경 보기](https://github.com/clou-dd/citrus-drop/commit/3a34047a1d4f478e863ad8c3414222829fbd3a00)
 - **Pretendard·가독성 개선**: 기본 창·원형 메뉴·트레이 메뉴에 Pretendard를 적용했습니다. 글자 크기와 굵기를 정리하고, 폰트와 OFL 라이선스를 배포본에 포함했습니다. [구현·검증 통합 이력](https://github.com/clou-dd/citrus-drop/compare/29e217d4abeb79da34b999631ad643953d6af101...3070ce7c66e80c6f4671d89f0d8ae4e317f89120)
 - **로고·Windows EXE 배포 개선**: 프로젝트 로고와 README 소개를 추가하고 창·트레이·EXE 아이콘에 연결했습니다. `Start.cmd`의 콘솔 창이 계속 남던 실행 방식을 수정하고, Windows 자동 빌드·EXE 실행 검사·다운로드를 구성했습니다. [관련 5개 커밋](https://github.com/clou-dd/citrus-drop/compare/52c3022f3fa141a24ed766d7234e42ba1a94f80e...29e217d4abeb79da34b999631ad643953d6af101)
 - **Python·PySide6 전환**: C# 소스를 Python으로 전환했습니다. Pillow·PDFium·ReportLab 기반 이미지·PDF 처리, FFmpeg 연동, 일괄 변환·취소·결과 파일 보호와 설치·테스트·빌드 구성을 정리했습니다. [변경 보기](https://github.com/clou-dd/citrus-drop/commit/52c3022f3fa141a24ed766d7234e42ba1a94f80e)
-
-v0.3.0의 Windows 자동 검사에서는 **38개 통과·1개 건너뜀**을 확인했으며, EXE 실행·내장 폰트·PDF 변환·배포 고지 파일 검사도 통과했습니다. 건너뛴 항목은 FFmpeg 미설치에 따른 선택적 음성 변환 검사입니다. [v0.3.0 검증 결과](https://github.com/clou-dd/citrus-drop/actions/runs/39734834805)
 
 ## 진행 예정
 

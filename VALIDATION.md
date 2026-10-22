@@ -14,7 +14,7 @@
 - 기존 C# 코드를 현재 소스에서 제거하고 Python 실행·설치·빌드 안내로 정리했습니다. 과거 버전은 Git 이력에 남습니다.
 - 프로젝트 SVG를 렌더링한 PNG를 확인했고, ICO의 16·24·32·48·64·128·256px 이미지 포함을 검사했습니다. 창·트레이·EXE에 같은 로고를 연결했습니다.
 - `Start.cmd`는 `start`와 `pythonw.exe`로 실행하고 돌아오도록 수정했습니다. 설치 실패 시에만 오류를 볼 수 있도록 콘솔을 유지합니다.
-- v0.3.0의 [GitHub Actions Windows x64 검사](https://github.com/clou-dd/citrus-drop/actions/runs/39734834805)가 성공했습니다. Python 3.12에서 **38개 통과, 1개 건너뜀**입니다. FFmpeg 미설치로 선택적 실제 음성 변환 검사만 건너뛰었습니다. v0.3.1의 Windows 결과는 `Windows EXE` 워크플로에서 확인할 수 있습니다.
+- v0.3.1의 [GitHub Actions Windows x64 검사](https://github.com/clou-dd/citrus-drop/actions/runs/39736367475)가 성공했습니다. Python 3.12에서 **41개 통과, 1개 건너뜀**입니다. 닫기·종료 버튼 검사도 포함하며, FFmpeg 미설치로 선택적 실제 음성 변환 검사만 건너뛰었습니다.
 - Windows용 `CitrusDrop.exe`를 실제 빌드했습니다. PE GUI 서브시스템(콘솔 없음)과 내장 아이콘 리소스를 검사했고, 패키지 EXE의 `--smoke-test`가 통과했습니다. 내장 Pretendard 로딩, 임시 이미지 → PDF → PNG 변환과 앱 초기화·정상 종료를 확인했습니다.
 - Windows 빌드 폴더를 `CitrusDrop-windows-x64` 아티팩트로 업로드했습니다. 위 실행 페이지에서 내려받을 수 있습니다. 보관 기간은 30일이며 새 빌드로 갱신할 수 있습니다.
 
