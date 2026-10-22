@@ -22,26 +22,21 @@
 | **v0.3.0** | Python·PySide6 전환, 로고·Windows EXE 배포, 콘솔 실행 개선, Pretendard 적용, MIT·제작 정보 정리 |
 | **v0.2 · 초기 버전** | C#·WPF 기반 Windows 앱, Shift 원형 메뉴·트레이, 이미지·PDF·영상·음성 변환과 ZIP 압축 |
 
-## 실제 앱 화면
+## 사용 안내
 
-v0.3.2 앱을 직접 실행한 화면입니다. **Linux의 Qt offscreen 환경**에서 캡처했으며, 원형 메뉴에는 샘플 파일을 담은 Qt 드롭 이벤트를 전달했습니다. Windows 탐색기에서 마우스로 드래그한 장면은 아닙니다.
+[![Citrus Drop 사용 안내 — 파일 드래그, Shift 원형 메뉴, 변환 결과 확인](docs/demo/citrus-drop-guide.gif)](docs/demo/citrus-drop-guide.mp4)
 
-**기본 창 · 이미지 두 개를 PDF로 변환할 준비**
+**24초 · 가로 1080p · 무음** — PDF → JPG와 PNG → PDF 사용 과정을 보여줍니다. 미리보기를 누르거나 [원본 MP4 영상](docs/demo/citrus-drop-guide.mp4)을 열어 확인하세요.
 
-<img src="docs/screenshots/main-window.png" alt="실행 중인 Citrus Drop 기본 창과 PDF 만들기 선택" width="760">
+실제 앱의 원형 메뉴와 변환 결과를 활용해 Windows 스타일로 구성한 합성 시연입니다. Windows 실기기 화면 녹화는 아닙니다.
 
-**원형 메뉴 · PDF 만들기 강조**
+### 드래그·Shift 원형 메뉴
+
+파일을 끌다가 **Shift**를 누른 뒤 원하는 형식 위에 놓으면 변환합니다.
 
 <img src="docs/screenshots/radial-menu.png" alt="샘플 이미지 두 개를 받은 원형 메뉴에서 PDF 만들기 강조" width="380">
 
-<details>
-<summary>실제 PDF 변환 완료 화면</summary>
-
-이미지 두 개를 실제로 변환했고, 생성된 PDF의 2페이지 구성과 첫 페이지 렌더링을 확인했습니다.
-
-<img src="docs/screenshots/conversion-complete.png" alt="PDF 변환 완료, 1건 성공 0건 실패 및 결과 파일 기록" width="760">
-
-</details>
+원형 메뉴 캡처는 v0.3.2 앱의 Linux Qt offscreen 실행 화면이며, 샘플 파일을 담은 Qt 드롭 이벤트로 표시했습니다.
 
 ## 진행 예정
 
