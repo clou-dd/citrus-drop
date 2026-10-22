@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.exe
+*.dll
+*.pdb
+*.zip
+.citrus-drop-*/
+tools/poppler/**
+!tools/poppler/README.txt

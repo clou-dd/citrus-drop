@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../src/Core.cs" Link="Core.cs" />
+    <Compile Include="../src/PdfTools.cs" Link="PdfTools.cs" />
+    <Compile Include="../src/PdfDocumentWriter.cs" Link="PdfDocumentWriter.cs" />
+    <Compile Include="PortablePdfTests.cs" />
+  </ItemGroup>
+</Project>
