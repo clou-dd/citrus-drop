@@ -1,8 +1,14 @@
-# Citrus Drop 0.3 — Python
+# Citrus Drop
+
+<p align="center"><img src="assets/citrus-drop.svg" alt="Citrus Drop 로고" width="180"></p>
+
+<p align="center"><strong>끌어 놓는 순간, 파일 변환이 간편해집니다.</strong></p>
+
+> 🚧 지속적으로 기능을 추가하고 개선하는 개발 중 프로젝트입니다.
 
 윈도우용 로컬 파일 변환 앱입니다. 파일을 끌다가 **Shift**를 누르면 원형 메뉴가 나타나고, 원하는 형식 위에 놓으면 변환합니다. 기본 창에서 파일을 선택해 실행할 수도 있습니다.
 
-현재 버전은 **Python + PySide6**로 작성했습니다. 기존 C# 버전의 이미지·PDF·영상·음성·ZIP·트레이 기능을 옮겼습니다. C# 버전은 Git의 이전 커밋에서 확인할 수 있습니다.
+현재 버전은 **Python + PySide6** 기반이며 이미지·PDF·영상·음성 변환과 ZIP 압축을 지원합니다. 새로운 기능과 사용성 개선을 계속 진행하고 있습니다.
 
 ## 빠른 실행
 
@@ -96,9 +102,9 @@ FFmpeg는 포함하거나 자동 다운로드하지 않습니다. 실제 코덱 
 - Windows용 EXE는 Windows에서 빌드해야 합니다. Linux 빌드 결과를 Windows용으로 사용할 수 없습니다.
 - 라이브러리 공지와 라이선스 파일을 함께 유지하세요. 자세한 내용은 THIRD_PARTY_NOTICES.md에 있습니다.
 
-## 로고 교체
+## 로고
 
-`assets/logo.png` 또는 `assets/icon.ico`를 넣으면 창·트레이 로고로 사용합니다. EXE 파일 아이콘까지 적용하려면 `assets/icon.ico`를 넣고 다시 빌드하세요. 현재는 주황색 원 안에 C를 표시한 임시 아이콘입니다. 자세한 위치는 assets/README.md를 참고하세요.
+프로젝트 로고는 `assets/citrus-drop.svg`에 있습니다. 현재 앱의 창·트레이 아이콘은 `assets/logo.png` 또는 `assets/icon.ico`를 사용하며, EXE 아이콘은 `assets/icon.ico`가 있어야 적용됩니다. 자세한 내용은 `assets/README.md`를 참고하세요.
 
 ## 소스 구조
 
@@ -133,6 +139,15 @@ FFmpeg는 포함하거나 자동 다운로드하지 않습니다. 실제 코덱 
 - Windows 탐색기와 실제 OLE 드롭, 혼합 DPI·다중 모니터·RDP는 실기기 확인이 필요합니다.
 - HEIC/AVIF/SVG, Word/엑셀/프레젠테이션 변환, PDF → Word, OCR, 크롭·PDF 편집·자동 실행·단축키 변경은 구현하지 않았습니다.
 - 변환 중 파일을 서버로 업로드하지 않습니다. 초기 패키지 설치와 선택적 빌드 도구 설치만 인터넷을 사용합니다.
+
+## 라이선스 및 사용 안내
+
+Citrus Drop은 소스 코드를 공개하는 **소스 공개(Source-available)** 프로젝트입니다.
+
+- 개인적·비상업적 목적의 사용, 복제 및 수정은 허용됩니다.
+- 상업적 이용, 상업적 배포, 유료 제품·서비스에의 통합은 저작권자의 사전 서면 허가가 필요합니다.
+- 소스 공개는 상업적 이용 권한을 자동으로 부여하지 않습니다.
+- 자세한 조건은 [LICENSE](LICENSE)를 확인하세요. 이 정책은 OSI 인증 오픈소스 라이선스가 아닙니다.
 
 ## 참고
 
