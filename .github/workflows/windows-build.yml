@@ -13,6 +13,8 @@ on:
       - 'THIRD_PARTY_NOTICES.md'
       - 'pyproject.toml'
       - '.github/workflows/windows-build.yml'
+      - '.github/scripts/**'
+      - 'docs/releases/**'
   workflow_dispatch:
 
 permissions:
@@ -93,3 +95,26 @@ jobs:
           path: dist/CitrusDrop.exe
           if-no-files-found: error
           retention-days: 30
+
+  publish_prerelease:
+    name: Publish pre-release
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    concurrency:
+      group: citrus-drop-prerelease
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download this run's verified executable
+        run: gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name CitrusDrop-windows-x64 --dir dist
+      - name: Publish a new version as pre-release
+        run: python3 .github/scripts/publish_prerelease.py
