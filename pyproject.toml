@@ -1,0 +1,9 @@
+[project]
+name = "citrus-drop"
+version = "0.3.0"
+description = "Local drag-and-drop file converter for Windows"
+requires-python = ">=3.11,<3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

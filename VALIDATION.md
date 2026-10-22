@@ -1,51 +1,52 @@
-﻿# 검증 상태 — 2026-10-22 / 0.2
+# 검증 상태 — 2026-10-22 / Python 0.3.0
 
-## 완료한 검사
+## 실제 확인한 내용
 
-- 전체 앱 소스를 C# 5 / .NET Framework 4.8 참조 어셈블리 대상으로 컴파일했습니다. 경고를 오류로 처리한 빌드가 통과했습니다.
-- Windows 자동 검증 코드 `SmokeTests.cs`도 같은 대상으로 컴파일했습니다. 실행은 아직 하지 못했습니다.
-- 앱에서 사용하는 `PdfDocumentWriter.cs`, `PdfTools.cs`, `Core.cs`를 별도 .NET 8 테스트 실행 파일로 컴파일하고 Linux에서 실행했습니다.
-- 실제 Poppler 엔진으로 PDF → PNG/JPG/TXT를 실행했습니다. 아래 11개 검사가 통과했습니다.
-- 독립적인 pypdf 파서로 생성 PDF의 2페이지와 A4 가로·세로 방향을 확인했습니다.
-- 생성된 PNG를 실제 디코딩하고, 두 페이지를 렌더링한 결과를 눈으로 확인했습니다. 이미지 비율과 순서, 여백, 방향이 의도대로 유지되었습니다.
-- XML 설정·매니페스트와 빌드 스크립트, 원본 보존·출력 이름 충돌·임시 폴더 정리 코드를 확인했습니다.
+- 별도의 깨끗한 Python 3.12 가상환경에 requirements-dev.txt를 설치했습니다.
+- `pip check`가 통과했습니다. PySide6 6.8.3, Pillow 12.3.0, pypdfium2 5.14.0, ReportLab 4.4.9를 사용했습니다.
+- 자동 테스트 **35개가 통과**했습니다. 테스트 프로세스도 종료 코드 0으로 정상 종료했습니다.
+- 소스 앱의 `python main.py --smoke-test`가 통과했습니다. Qt 화면을 초기화하고 임시 이미지 → PDF → PNG 변환·디코딩을 실행한 뒤 정상 종료했습니다.
+- PyInstaller로 Linux용 폴더 패키지를 실제 빌드했고, 패키지 실행 파일의 `--smoke-test`도 통과했습니다. Qt·PDFium·ReportLab 리소스가 포함되는지 실행으로 확인했습니다.
+- 기본 창·원형 메뉴를 실제 렌더링해 한글 표시와 배치, 항목 강조를 확인했습니다. 투명 메뉴를 다시 그릴 때 안내 글자가 겹치던 문제를 수정했습니다.
+- 생성한 PDF를 렌더링해 A4 가로/세로 방향, 이미지 비율·순서·여백을 확인했습니다.
+- 기존 C# 코드를 현재 소스에서 제거하고 Python 실행·설치·빌드 안내로 정리했습니다. 과거 버전은 Git 이력에 남습니다.
 
-### 실행한 PDF 검사 11개
+## 테스트 범위
 
-1. 자체 PDF 작성 코드가 PDF를 생성함
-2. PDF의 전체 2페이지를 PNG로 출력함
-3. 같은 작업을 다시 실행해도 기존 결과 폴더가 보존됨
-4. PDF의 전체 2페이지를 JPG로 출력함
-5. 원본 PDF의 바이트가 유지됨
-6. 문자 PDF에서 UTF-8 TXT를 추출함
-7. 이미지 전용 PDF에서 OCR 문자를 만들어내지 않고 빈 텍스트를 출력함
-8. 잘못된 PDF는 오류로 처리하고 최종 결과 폴더를 남기지 않음
-9. 시작 전에 취소된 PDF 작업을 거부함
-10. PDF 작업의 임시 폴더가 정리됨
-11. 엔진 사용 가능 여부에 따라 PNG/JPG/TXT 메뉴가 표시됨
+| 영역 | 검사 내용 |
+| --- | --- |
+| 이미지 | PNG/JPG/BMP/TIFF/GIF/WebP 변환, 투명 영역, EXIF 방향, 메타데이터 제거, GIF 첫 프레임 |
+| 원본·결과 보호 | 원본 바이트 보존, 결과 이름 충돌, 기존 빈 결과 폴더 보존, 실패 시 임시 출력 정리 |
+| PDF | 여러 이미지의 페이지 순서·A4 방향·색상, 전체 PNG/JPG 출력, UTF-8·한글 문자 추출, 이미지 전용 PDF의 빈 TXT |
+| PDF 오류·동시성 | 손상·암호 PDF 오류, 중간 취소 후 결과 미생성, PDFium 호출 직렬화 |
+| ZIP·일괄 처리 | 중복 파일명과 내용, 파일 하나 실패 후 계속 처리, 시작 전 취소 |
+| 외부 프로세스 | 실제 FFmpeg WAV → FLAC 변환, 실행 중 취소 시 자식 프로세스 종료, 오류 출력 처리 |
+| 설정 | 기존 C# FFmpeg 경로 이관, JSON 저장·재사용 |
+| Qt 화면 | 파일 순서 변경, 작업 선택, 실제 로컬 파일 드롭 수신, 외부 URL 거부, 원형 메뉴 경계·재그리기·드롭 |
+| 앱 수명 | 작업 스레드 완료·정리, 클립보드 경로 복사, Qt 리소스 정리 후 정상 종료 |
+| Shift 제스처 | 끌기 시작 후 Shift, Shift 해제 후 유지, Esc·외부 종료, 먼저 누른 Shift 거부 |
 
-## 남은 Windows 실행 검사
+Qt 테스트와 렌더링은 Linux의 offscreen 플랫폼에서 실행했습니다. 이 검사가 Windows 탐색기나 실제 마우스 입력 검증을 대체하지는 않습니다.
 
-현재 검증 환경은 Linux입니다. Windows 대상 EXE 컴파일 성공이 Windows 화면·입력·코덱 실행을 보장하지는 않습니다.
+## 남은 Windows 실기기 검사
 
-`tests\run-tests.cmd`를 Windows에서 실행하면 이미지 크기·투명 배경·EXIF 방향·원본 보존·이름 충돌·ZIP 내용·이미지 PDF 생성·취소를 자동 검사합니다. 자동 실행 환경에서는 `--no-pause` 옵션을 사용할 수 있습니다.
+- [ ] Windows x64의 Setup.cmd / Start.cmd 실행
+- [ ] build.cmd로 Windows EXE 빌드 후 폴더 전체에서 실행
+- [ ] Windows API 입력 감지와 탐색기 실제 파일 드래그 중 Shift 메뉴 표시
+- [ ] 실제 OLE 드롭의 Copy 효과와 원본 보존
+- [ ] 트레이 아이콘·창 닫기·재열기·변환 중 종료
+- [ ] 다중 모니터·혼합 DPI·RDP에서 메뉴 위치와 드롭 수신
+- [ ] 선택한 Windows FFmpeg 배포본의 코덱·한글 경로
+- [ ] 사용자가 제공한 logo.png / icon.ico로 로고 교체
 
-- [ ] Windows 기본 이미지 변환과 이미지 → PDF의 WPF 전처리 실행
-- [ ] 탐색기 단일·다중 파일 드래그 중 Shift 메뉴 표시와 드롭
-- [ ] Shift를 뗀 뒤 메뉴 유지, Esc·외부 드롭 취소
-- [ ] 원본 파일 이동·삭제 없이 결과 생성
-- [ ] 파일 목록의 위로·아래로 이동이 PDF 페이지 순서에 반영됨
-- [ ] Poppler Windows 배포본의 DLL·데이터 경로 연결
-- [ ] PDF → PNG/JPG/TXT 전체 페이지 출력과 한글 텍스트
-- [ ] 열기 암호가 필요한 PDF의 오류 안내
-- [ ] 실행 중 취소 시 Poppler/FFmpeg 프로세스와 임시 파일 정리
-- [ ] 쓰기 금지 폴더·대형 파일·다중 모니터·혼합 화면 배율
-- [ ] 창 닫기·트레이 재열기·진행 중 종료
+Windows용 실행 파일은 Linux에서 빌드하지 않았습니다. 저장소의 build.cmd와 CitrusDrop.spec는 Windows에서 해당 EXE를 만들기 위한 구성입니다. Linux 패키지 테스트 성공을 Windows EXE 검증 성공으로 해석하면 안 됩니다.
 
-## 검증 도구 구분
+## 재현
 
-- 제품은 .NET Framework 4.8용 WPF 앱입니다. .NET 8은 이번 공통 코드 실행 검사에 사용했으며 사용자 PC의 필수 실행 환경이 아닙니다.
-- WPF 자동 검사: `tests/SmokeTests.cs`
-- 공통 PDF 코드 검사: `tests/PortablePdfTests.cs`, `tests/run_portable_tests.py`
-- 공통 검사 재현: .NET 8 SDK, Python의 Pillow·reportlab·pypdf, Poppler를 준비하고 `python tests/run_portable_tests.py`를 실행합니다.
-- Windows에서는 `--poppler-dir "C:\Poppler\Library\bin"`을 추가합니다.
+```powershell
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe -m pytest -q
+.venv\Scripts\python.exe main.py --smoke-test
+```
+
+`tests/run-tests.cmd --no-pause`로 자동 테스트를 실행할 수도 있습니다. 테스트용 파일은 독립적인 임시 폴더에서만 만들며, 변환 대상 원본을 덮어쓰지 않습니다.
