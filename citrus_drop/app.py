@@ -9,6 +9,7 @@ from PySide6.QtCore import QCoreApplication, QEvent, QObject, QLockFile, QThread
 from PySide6.QtGui import QAction, QColor, QFont, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QMenu, QMessageBox, QSystemTrayIcon
 
+from . import __version__
 from .jobs import BatchResult, run_batch
 from .models import available_operations
 from .native import GestureState, WindowsInput
@@ -75,6 +76,7 @@ class Controller(QObject):
         self.wheel.requested.connect(self.execute)
         self.window.cancel_requested.connect(self.cancel_job)
         self.window.close_requested.connect(self.window_closed)
+        self.window.quit_requested.connect(self.request_quit)
         self.busy = False
         self.exit_after_job = False
         self.cancel = threading.Event()
@@ -100,6 +102,9 @@ class Controller(QObject):
         self.tray_enabled = tray and QSystemTrayIcon.isSystemTrayAvailable()
         if self.tray_enabled:
             self.tray.show()
+        else:
+            self.window.close_button.setToolTip("트레이를 사용할 수 없어 창을 닫으면 앱도 종료합니다.")
+            self.window.close_hint.setText("이 환경에서는 창을 닫으면 앱도 종료합니다. 작업 중에는 취소 여부를 확인합니다.")
         self.input = WindowsInput()
         self.gesture = GestureState()
         if not self.input.supported:
@@ -232,6 +237,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     app = QApplication.instance() or QApplication([sys.argv[0]])
     app.setApplicationName("CitrusDrop")
+    app.setApplicationVersion(__version__)
     app.setOrganizationName("CitrusDrop")
     app.setQuitOnLastWindowClosed(False)
     font_family = configure_typography(app)

@@ -20,6 +20,7 @@ QLabel { background: transparent; }
 QPushButton { background: #2A3547; border: 1px solid #3D495D; border-radius: 7px; padding: 8px 13px; }
 QPushButton:hover { background: #3A4961; }
 QPushButton:disabled { color: #758094; background: #202938; border-color: #293345; }
+QPushButton#quit:hover { background: #61323A; border-color: #8B4551; }
 QPushButton#run { background: #FFAA5C; color: #171D26; font-weight: 600; font-size: 15px; padding: 12px; }
 QPushButton#run:hover { background: #FFBB7E; }
 QPushButton#run:disabled { background: #66513D; color: #B5A18D; }
@@ -88,6 +89,7 @@ class MainWindow(QMainWindow):
     requested = Signal(list, str)
     cancel_requested = Signal()
     close_requested = Signal()
+    quit_requested = Signal()
 
     def __init__(self, settings: Settings):
         super().__init__()
@@ -99,17 +101,35 @@ class MainWindow(QMainWindow):
         self.resize(800, 900)
         self.setMinimumSize(650, 660)
         self.setStyleSheet(STYLESHEET)
+        central = QWidget()
+        self.setCentralWidget(central)
+        outer_layout = QVBoxLayout(central)
+        outer_layout.setContentsMargins(0, 0, 0, 0)
+        outer_layout.setSpacing(0)
+        header = QHBoxLayout()
+        header.setContentsMargins(28, 18, 28, 12)
+        header.setSpacing(8)
+        brand = QLabel("CITRUS DROP")
+        brand.setStyleSheet(f"color: {ORANGE}; font-weight: bold; letter-spacing: 2px;")
+        header.addWidget(brand, 1)
+        self.close_button = QPushButton("창 닫기")
+        self.close_button.setToolTip("창을 닫습니다. 트레이를 사용할 수 있으면 백그라운드에서 계속 실행합니다.")
+        self.close_button.clicked.connect(self.close)
+        header.addWidget(self.close_button)
+        self.quit_button = QPushButton("프로그램 종료")
+        self.quit_button.setObjectName("quit")
+        self.quit_button.setToolTip("앱을 완전히 종료합니다. 진행 중인 작업이 있으면 취소 여부를 확인합니다.")
+        self.quit_button.clicked.connect(self.quit_requested.emit)
+        header.addWidget(self.quit_button)
+        outer_layout.addLayout(header)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
-        self.setCentralWidget(scroll)
+        outer_layout.addWidget(scroll, 1)
         body = QWidget()
         scroll.setWidget(body)
         layout = QVBoxLayout(body)
-        layout.setContentsMargins(28, 24, 28, 24)
+        layout.setContentsMargins(28, 8, 28, 24)
         layout.setSpacing(12)
-        brand = QLabel("CITRUS DROP")
-        brand.setStyleSheet(f"color: {ORANGE}; font-weight: bold; letter-spacing: 2px;")
-        layout.addWidget(brand)
         heading = QLabel("파일을 놓으면, 변환됩니다.")
         heading.setStyleSheet("font-size: 28px; font-weight: 600;")
         layout.addWidget(heading)
@@ -167,7 +187,8 @@ class MainWindow(QMainWindow):
         self.history = QListWidget()
         self.history.setFixedHeight(135)
         layout.addWidget(self.history)
-        layout.addWidget(self.label("창을 닫아도 트레이에 남습니다. 완전 종료는 트레이 메뉴 → 종료입니다.", small=True))
+        self.close_hint = self.label("창 닫기: 트레이에서 계속 실행 · 프로그램 종료: 앱 완전 종료", small=True)
+        layout.addWidget(self.close_hint)
         layout.addStretch(1)
         self.refresh_files()
         self.refresh_ffmpeg()

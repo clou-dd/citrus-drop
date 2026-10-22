@@ -1,9 +1,11 @@
 import math
 from pathlib import Path
 import time
+import pytest
 
 from PySide6.QtCore import QMimeData, QPoint, QPointF, Qt, QUrl
 from PySide6.QtGui import QDragEnterEvent, QDropEvent
+from PySide6.QtWidgets import QMessageBox, QScrollArea
 
 from citrus_drop.app import Controller
 from citrus_drop.models import available_operations
@@ -112,3 +114,42 @@ def test_controller_worker_finishes_without_destroying_running_thread(qt_app, tm
     finally:
         controller.dispose()
         qt_app.processEvents()
+
+
+@pytest.mark.parametrize("tray_enabled", [True, False])
+def test_close_button_preserves_tray_behavior_and_stays_above_scroll(qt_app, tmp_path, monkeypatch, tray_enabled):
+    controller = Controller(qt_app, Settings(tmp_path / "settings"), tray=False)
+    shutdowns = []
+    monkeypatch.setattr(controller, "shutdown", lambda: shutdowns.append(True))
+    controller.tray_enabled = tray_enabled
+    try:
+        qt_app.processEvents()
+        scroll = controller.window.findChild(QScrollArea)
+        scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
+        qt_app.processEvents()
+        button = controller.window.close_button
+        assert button.isVisible() and not scroll.isAncestorOf(button)
+        button.click()
+        if tray_enabled:
+            assert not controller.window.isVisible() and not shutdowns
+        else:
+            assert shutdowns == [True]
+    finally:
+        controller.dispose()
+
+
+def test_quit_button_confirms_cancellation_before_exiting_busy_app(qt_app, tmp_path, monkeypatch):
+    controller = Controller(qt_app, Settings(tmp_path / "settings"), tray=False)
+    answers = iter([QMessageBox.StandardButton.No, QMessageBox.StandardButton.Yes])
+    monkeypatch.setattr(QMessageBox, "question", lambda *args: next(answers))
+    shutdowns = []
+    monkeypatch.setattr(controller, "shutdown", lambda: shutdowns.append(True))
+    controller.busy = True
+    try:
+        controller.window.quit_button.click()
+        assert not controller.cancel.is_set() and not controller.exit_after_job
+        controller.window.quit_button.click()
+        assert controller.cancel.is_set() and controller.exit_after_job
+        assert not shutdowns  # 실행 중인 작업이 끝나기 전에 종료하지 않습니다.
+    finally:
+        controller.dispose()
