@@ -15,9 +15,9 @@
 - 기존 C# 코드를 현재 소스에서 제거하고 Python 실행·설치·빌드 안내로 정리했습니다. 과거 버전은 Git 이력에 남습니다.
 - 프로젝트 SVG를 렌더링한 PNG를 확인했고, ICO의 16·24·32·48·64·128·256px 이미지 포함을 검사했습니다. 창·트레이·EXE에 같은 로고를 연결했습니다.
 - `Start.cmd`는 `start`와 `pythonw.exe`로 실행하고 돌아오도록 수정했습니다. 설치 실패 시에만 오류를 볼 수 있도록 콘솔을 유지합니다.
-- v0.3.1의 [GitHub Actions Windows x64 검사](https://github.com/clou-dd/citrus-drop/actions/runs/39736367475)가 성공했습니다. Python 3.12에서 **41개 통과, 1개 건너뜀**입니다. 닫기·종료 버튼 검사도 포함하며, FFmpeg 미설치로 선택적 실제 음성 변환 검사만 건너뛰었습니다.
-- Windows용 `CitrusDrop.exe`를 실제 빌드했습니다. PE GUI 서브시스템(콘솔 없음)과 내장 아이콘 리소스를 검사했고, 패키지 EXE의 `--smoke-test`가 통과했습니다. 내장 Pretendard 로딩, 임시 이미지 → PDF → PNG 변환과 앱 초기화·정상 종료를 확인했습니다.
-- v0.3.1의 Windows 빌드 폴더를 `CitrusDrop-windows-x64` 아티팩트로 업로드했습니다. 위 실행 페이지에서 내려받을 수 있습니다. 보관 기간은 30일이며 새 빌드로 갱신할 수 있습니다.
+- v0.3.2의 [GitHub Actions Windows x64 검사](https://github.com/clou-dd/citrus-drop/actions/runs/39750455677)가 성공했습니다. Python 3.12에서 **42개 통과, 1개 건너뜀**입니다. 정보·라이선스와 닫기·종료 버튼 검사도 포함하며, FFmpeg 미설치로 선택적 실제 음성 변환 검사만 건너뛰었습니다.
+- Windows용 단일 `CitrusDrop.exe`를 실제 빌드했습니다. PE GUI 서브시스템(콘솔 없음), 내장 아이콘, 고지 원문 바이트와 Pretendard OTF 포함을 검사했습니다. **EXE 하나만 공백·한글이 있는 새 폴더에 복사한 `--smoke-test`가 통과**했습니다. 내장 Pretendard 로딩, 임시 이미지 → PDF → PNG 변환·정상 종료·동반 파일 미생성을 확인했습니다.
+- Windows 단일 EXE를 [CitrusDrop-windows-x64 아티팩트](https://github.com/clou-dd/citrus-drop/actions/runs/39750455677/artifacts/12412789897)로 업로드했습니다. ZIP 안의 `CitrusDrop.exe`만 사용하면 됩니다. `_internal` 폴더는 필요하지 않습니다. 보관 기간은 30일이며 새 빌드로 갱신할 수 있습니다.
 
 - README용 실제 앱 화면 3장을 캡처했습니다. 샘플 이미지 2개를 원형 메뉴의 Qt 드롭 이벤트로 PDF 변환하고, 성공 상태·2페이지 PDF·첫 페이지 렌더링을 확인했습니다. 캡처 환경과 재현 방법은 `docs/screenshots/README.md`에 기록했습니다.
 
@@ -40,7 +40,7 @@ Qt 테스트와 렌더링은 Linux의 offscreen 플랫폼에서 실행했습니�
 
 ## 남은 Windows 실기기 검사
 
-- [x] Windows x64 CI에서 EXE 빌드·아이콘 리소스·콘솔 없음·시작/변환/종료 검사
+- [x] Windows x64 CI에서 단일 EXE 빌드·아이콘 리소스·콘솔 없음·동반 파일 없이 시작/변환/종료 검사
 - [ ] Windows x64의 Setup.cmd / Start.cmd 실행
 - [ ] build.cmd로 Windows 단일 EXE 빌드 후 실행
 - [ ] Windows API 입력 감지와 탐색기 실제 파일 드래그 중 Shift 메뉴 표시
