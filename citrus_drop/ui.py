@@ -6,12 +6,13 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt, Signal, Slot, QPointF, QRectF
 from PySide6.QtGui import QColor, QCursor, QFont, QPainter, QPainterPath, QPen
-from PySide6.QtWidgets import (QCheckBox, QComboBox, QFileDialog, QFrame, QHBoxLayout, QLabel,
+from PySide6.QtWidgets import (QCheckBox, QComboBox, QDialog, QDialogButtonBox, QFileDialog, QFrame, QHBoxLayout, QLabel,
                                QListWidget, QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
-                               QScrollArea, QVBoxLayout, QWidget)
+                               QPlainTextEdit, QScrollArea, QVBoxLayout, QWidget)
 
+from . import __version__
 from .models import available_operations, normalize_files
-from .storage import Settings
+from .storage import Settings, bundled_directory
 
 ORANGE = "#FFAA5C"
 STYLESHEET = """
@@ -112,6 +113,9 @@ class MainWindow(QMainWindow):
         brand = QLabel("CITRUS DROP")
         brand.setStyleSheet(f"color: {ORANGE}; font-weight: bold; letter-spacing: 2px;")
         header.addWidget(brand, 1)
+        self.about_button = QPushButton("정보·라이선스")
+        self.about_button.clicked.connect(self.show_about)
+        header.addWidget(self.about_button)
         self.close_button = QPushButton("창 닫기")
         self.close_button.setToolTip("창을 닫습니다. 트레이를 사용할 수 있으면 백그라운드에서 계속 실행합니다.")
         self.close_button.clicked.connect(self.close)
@@ -199,6 +203,32 @@ class MainWindow(QMainWindow):
         label.setWordWrap(True)
         label.setStyleSheet("color: #A9B3C4;" + ("font-size: 12px;" if small else ""))
         return label
+
+    def show_about(self):
+        dialog = QDialog(self)
+        dialog.setObjectName("about_dialog")
+        dialog.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+        dialog.setWindowTitle("Citrus Drop · 정보 및 라이선스")
+        dialog.setWindowModality(Qt.WindowModality.WindowModal)
+        dialog.resize(720, 600)
+        layout = QVBoxLayout(dialog)
+        layout.addWidget(QLabel(f"Citrus Drop {__version__}"))
+        notices = QPlainTextEdit()
+        notices.setReadOnly(True)
+        parts = []
+        for name in ("LICENSE", "AUTHORS.md", "THIRD_PARTY_NOTICES.md", "assets/fonts/OFL.txt"):
+            try:
+                content = (bundled_directory() / name).read_text(encoding="utf-8")
+            except OSError:
+                content = "문서를 읽을 수 없습니다. 공식 저장소의 라이선스 안내를 확인해 주세요."
+            parts.append(f"===== {name} =====\n\n{content}")
+        notices.setPlainText("\n\n".join(parts))
+        layout.addWidget(notices)
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
+        buttons.button(QDialogButtonBox.StandardButton.Close).setText("닫기")
+        buttons.rejected.connect(dialog.close)
+        layout.addWidget(buttons)
+        dialog.show()
 
     def add_files(self, files):
         try:

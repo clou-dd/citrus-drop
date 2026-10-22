@@ -16,9 +16,11 @@ Its dependencies are separate projects with their own licenses:
 | Pretendard v1.3.9 by Kil Hyung-jin | Application UI typeface | SIL Open Font License 1.1; full copyright and license in assets/fonts/OFL.txt |
 
 The packaging specification copies installed package metadata and the PDFium
-package's data/license files. Keep those notices and the supplied shared
-libraries when distributing the application folder. Review the component's
-complete license terms for your chosen distribution.
+package's data/license files inside the single executable. Its bootloader
+extracts these resources to a temporary directory while running. Project and
+font notices are also readable in the application's information/license dialog.
+Keep the bundled third-party notices and shared libraries when rebuilding or
+redistributing. Review each component's complete license terms for your distribution.
 
 FFmpeg is optional and is not included or downloaded by Citrus Drop. Its
 license depends on the FFmpeg build and enabled libraries. Users select their

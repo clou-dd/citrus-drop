@@ -6,33 +6,43 @@
 
 > 🚧 지속적으로 기능을 추가하고 개선하는 개발 중 프로젝트입니다.
 
-## 업데이트 알림
+윈도우용 로컬 파일 변환 앱입니다. 파일을 끌다가 **Shift**를 누르면 원형 메뉴가 나타나고, 원하는 형식 위에 놓으면 변환합니다. 기본 창에서 파일을 선택해 실행할 수도 있습니다.
 
-**현재 앱 버전: v0.3.1** · **최근 업데이트: 2026-10-22**
+현재 버전은 **Python + PySide6** 기반이며 이미지·PDF·영상·음성 변환과 ZIP 압축을 지원합니다.
 
-기존 앱 버전을 기준으로 관련 커밋을 묶었습니다. 기능 구현과 검증·문서 정리를 같은 변경 단위로 통합했으며, 최신 변경부터 표시합니다.
+## 버전 안내
 
-| 버전 | 날짜 | 통합 변경 내용 | 커밋 이력 |
-| --- | --- | --- | --- |
-| **v0.3.1 · 현재** | 2026-10-22 | 스크롤해도 보이는 `창 닫기`·`프로그램 종료` 버튼, 트레이 동작 안내, 진행 예정 기능 정리 | [v0.3.1 변경](https://github.com/clou-dd/citrus-drop/commit/e51ee7752532f243fb7870c607ffaff9a168bb78) |
-| **v0.3.0** | 2026-10-22 | Python·PySide6 전환, 로고와 Windows EXE 배포, 콘솔 실행 개선, Pretendard 적용, MIT 라이선스·제작 정보 정리 | [9개 커밋](https://github.com/clou-dd/citrus-drop/compare/8e61ad63bf280e85d8508f39106b5f3f11613c59...3a34047a1d4f478e863ad8c3414222829fbd3a00) |
-| **v0.2 · 초기 Windows 버전** | 2026-10-22 | 초기 사용 안내와 C#·WPF 앱 구현, Shift 원형 메뉴·트레이, 이미지·PDF·영상·음성 변환과 ZIP 압축 | [초기 2개 커밋](https://github.com/clou-dd/citrus-drop/commits/8e61ad63bf280e85d8508f39106b5f3f11613c59) |
+**현재 버전: v0.3.2** · **업데이트: 2026-10-22**
 
-### v0.3.1 변경 내용
+| 버전 | 주요 변경 |
+| --- | --- |
+| **v0.3.2 · 현재** | EXE 하나로 배포하도록 변경, 정보·라이선스 창 추가, 실제 앱 화면과 버전 안내 정리 |
+| **v0.3.1** | 항상 보이는 창 닫기·프로그램 종료 버튼, 트레이 동작 안내, 개발 예정 기능 정리 |
+| **v0.3.0** | Python·PySide6 전환, 로고·Windows EXE 배포, 콘솔 실행 개선, Pretendard 적용, MIT·제작 정보 정리 |
+| **v0.2 · 초기 버전** | C#·WPF 기반 Windows 앱, Shift 원형 메뉴·트레이, 이미지·PDF·영상·음성 변환과 ZIP 압축 |
 
-- 기본 창 상단에 `창 닫기`와 `프로그램 종료` 버튼을 추가했습니다. 버튼은 스크롤 영역 밖에 있어 항상 접근할 수 있습니다.
-- `창 닫기`는 트레이를 사용할 수 있으면 창만 숨겨 변환 작업과 Shift 메뉴를 유지합니다. `프로그램 종료`는 진행 중인 작업의 취소 여부를 확인한 후 앱을 종료합니다.
-- 트레이를 사용할 수 없는 환경에서는 창을 닫을 때 앱도 종료하며, 해당 동작을 화면에 안내합니다.
-- 아래에 이미지 편집·변환 설정·PDF 확장 등의 개발 방향을 정리했습니다.
+## 실제 앱 화면
 
-v0.3.1의 Windows 자동 검사에서는 **41개 통과·1개 건너뜀**을 확인했습니다. 닫기·종료 동작과 EXE 실행·내장 폰트·PDF 변환·배포 고지 파일 검사가 통과했습니다. 건너뛴 항목은 FFmpeg 미설치에 따른 선택적 음성 변환 검사입니다. [v0.3.1 검증 결과](https://github.com/clou-dd/citrus-drop/actions/runs/39736367475)
+v0.3.2 앱을 직접 실행한 화면입니다. **Linux의 Qt offscreen 환경**에서 캡처했으며, 원형 메뉴에는 샘플 파일을 담은 Qt 드롭 이벤트를 전달했습니다. Windows 탐색기에서 마우스로 드래그한 장면은 아닙니다.
 
-### v0.3.0 변경 과정
+**기본 창 · 이미지 두 개를 PDF로 변환할 준비**
 
-- **MIT·제작 정보 정리**: 상업적 이용 제한을 제거하고 MIT로 통일했습니다. 제작자 `clou-dd`·공식 저장소·OpenAI Codex 활용 사실을 명시하고, EXE 패키지에 라이선스와 제작 정보를 포함했습니다. [변경 보기](https://github.com/clou-dd/citrus-drop/commit/3a34047a1d4f478e863ad8c3414222829fbd3a00)
-- **Pretendard·가독성 개선**: 기본 창·원형 메뉴·트레이 메뉴에 Pretendard를 적용했습니다. 글자 크기와 굵기를 정리하고, 폰트와 OFL 라이선스를 배포본에 포함했습니다. [구현·검증 통합 이력](https://github.com/clou-dd/citrus-drop/compare/29e217d4abeb79da34b999631ad643953d6af101...3070ce7c66e80c6f4671d89f0d8ae4e317f89120)
-- **로고·Windows EXE 배포 개선**: 프로젝트 로고와 README 소개를 추가하고 창·트레이·EXE 아이콘에 연결했습니다. `Start.cmd`의 콘솔 창이 계속 남던 실행 방식을 수정하고, Windows 자동 빌드·EXE 실행 검사·다운로드를 구성했습니다. [관련 5개 커밋](https://github.com/clou-dd/citrus-drop/compare/52c3022f3fa141a24ed766d7234e42ba1a94f80e...29e217d4abeb79da34b999631ad643953d6af101)
-- **Python·PySide6 전환**: C# 소스를 Python으로 전환했습니다. Pillow·PDFium·ReportLab 기반 이미지·PDF 처리, FFmpeg 연동, 일괄 변환·취소·결과 파일 보호와 설치·테스트·빌드 구성을 정리했습니다. [변경 보기](https://github.com/clou-dd/citrus-drop/commit/52c3022f3fa141a24ed766d7234e42ba1a94f80e)
+<img src="docs/screenshots/main-window.png" alt="실행 중인 Citrus Drop 기본 창과 PDF 만들기 선택" width="760">
+
+**원형 메뉴 · PDF 만들기 강조**
+
+<img src="docs/screenshots/radial-menu.png" alt="샘플 이미지 두 개를 받은 원형 메뉴에서 PDF 만들기 강조" width="380">
+
+<details>
+<summary>실제 PDF 변환 완료 화면</summary>
+
+이미지 두 개를 실제로 변환했고, 생성된 PDF의 2페이지 구성과 첫 페이지 렌더링을 확인했습니다.
+
+<img src="docs/screenshots/conversion-complete.png" alt="PDF 변환 완료, 1건 성공 0건 실패 및 결과 파일 기록" width="760">
+
+</details>
+
+캡처 재현 방법은 [화면 캡처 안내](docs/screenshots/README.md)를 참고하세요.
 
 ## 진행 예정
 
@@ -45,17 +55,13 @@ v0.3.1의 Windows 자동 검사에서는 **41개 통과·1개 건너뜀**을 확
 | 3 | PDF 기능 확장 | PDF 합치기·분할, 페이지 선택·추출, 페이지 순서 변경 | 검토 |
 | 4 | 사용 환경·배포 개선 | Windows 시작 시 실행, 단축키 설정, 다중 모니터·DPI 검사, SignPath 무료 서명 신청 검토 | 검토 |
 
-윈도우용 로컬 파일 변환 앱입니다. 파일을 끌다가 **Shift**를 누르면 원형 메뉴가 나타나고, 원하는 형식 위에 놓으면 변환합니다. 기본 창에서 파일을 선택해 실행할 수도 있습니다.
-
-현재 버전은 **Python + PySide6** 기반이며 이미지·PDF·영상·음성 변환과 ZIP 압축을 지원합니다. 새로운 기능과 사용성 개선을 계속 진행하고 있습니다.
-
 ## 제작 및 개발 방식
 
 - 프로젝트 기획·유지관리: [clou-dd](https://github.com/clou-dd)
 - 공식 저장소: [clou-dd/citrus-drop](https://github.com/clou-dd/citrus-drop)
 - 개발 과정의 코드 생성·수정·검증에 **OpenAI Codex**를 활용합니다.
 
-제작 정보는 [AUTHORS.md](AUTHORS.md)에 정리하며, EXE 배포본에는 `_internal/AUTHORS.md`로 포함합니다.
+제작 정보는 [AUTHORS.md](AUTHORS.md)에 정리합니다. 단일 EXE에도 포함하며 앱 상단의 `정보·라이선스`에서 확인할 수 있습니다.
 
 ## 빠른 실행
 
@@ -63,9 +69,9 @@ v0.3.1의 Windows 자동 검사에서는 **41개 통과·1개 건너뜀**을 확
 
 1. [Windows EXE 빌드](https://github.com/clou-dd/citrus-drop/actions/workflows/windows-build.yml)에서 최신 성공한 실행을 여세요.
 2. 아래쪽 **Artifacts → CitrusDrop-windows-x64**를 내려받으세요. GitHub 로그인이 필요할 수 있습니다.
-3. ZIP을 **모두 압축 해제**하고 `CitrusDrop.exe`를 실행하세요. Python 설치나 CMD 창 없이 실행됩니다.
+3. ZIP을 압축 해제하고 **`CitrusDrop.exe` 하나를 실행**하세요. Python 설치나 CMD 창 없이 실행됩니다.
 
-EXE 옆의 `_internal` 폴더도 함께 유지하세요. 아이콘·Qt·PDF 엔진이 포함되어 있습니다. 처음 빌드가 진행 중이면 완료 후 내려받을 수 있습니다.
+**v0.3.2부터 `_internal` 폴더 없이 배포합니다.** Qt·PDF 엔진·로고·폰트가 EXE에 포함됩니다. 실행할 때 필요한 내부 파일을 임시 폴더에 풀기 때문에 시작에 잠시 시간이 걸릴 수 있으며, 정상 종료 시 임시 폴더를 정리합니다. 영상·음성용 FFmpeg는 별도로 연결합니다. 이전 버전 ZIP에는 `_internal` 폴더가 있으므로 최신 성공한 빌드를 받아 주세요.
 
 ### Python 소스로 실행
 
@@ -154,15 +160,15 @@ FFmpeg는 포함하거나 자동 다운로드하지 않습니다. 실제 코덱 
 
 ## EXE로 빌드
 
-**Windows에서** `build.cmd`를 실행하세요. 패키지를 설치하고 PyInstaller로 `dist/CitrusDrop/CitrusDrop.exe`를 만듭니다.
+**Windows에서** `build.cmd`를 실행하세요. 패키지를 설치하고 PyInstaller로 `dist/CitrusDrop.exe`를 만듭니다.
 
-GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아이콘 생성·빌드·EXE 실행 검사를 수행하고 배포 폴더를 Artifacts로 제공합니다. 소스 변경 시 자동 실행되며 Actions에서 `Run workflow`로 다시 빌드할 수도 있습니다.
+GitHub의 `Windows EXE` 워크플로도 Windows x64 환경에서 테스트·아이콘 생성·빌드·EXE 실행 검사를 수행하고 단일 EXE를 Artifacts로 제공합니다. EXE만 새 폴더에 복사한 뒤 내장 폰트·이미지 → PDF → PNG 변환·종료까지 검사합니다. 소스 변경 시 자동 실행되며 Actions에서 `Run workflow`로 다시 빌드할 수도 있습니다.
 
 - 사용자 PC에 Python을 별도 설치하지 않고 배포할 수 있도록 만드는 구성입니다.
-- EXE 한 개만 복사하지 말고 **CitrusDrop 폴더 전체**를 전달해야 합니다. Qt·PDFium 라이브러리와 데이터가 함께 필요합니다.
+- **`CitrusDrop.exe` 하나만 전달하면 됩니다.** Qt·PDFium·라이브러리 데이터·폰트는 EXE 내부에 포함합니다.
 - FFmpeg는 별도로 선택하거나 EXE 옆 `tools` 폴더에 배치합니다.
 - Windows용 EXE는 Windows에서 빌드해야 합니다. Linux 빌드 결과를 Windows용으로 사용할 수 없습니다.
-- 라이브러리 공지와 라이선스 파일을 함께 유지하세요. 자세한 내용은 THIRD_PARTY_NOTICES.md에 있습니다.
+- 라이브러리 공지·프로젝트 제작 정보·폰트 라이선스는 EXE에 포함하며 `정보·라이선스`에서 읽을 수 있습니다. 재빌드할 때도 고지를 유지하세요. 자세한 내용은 THIRD_PARTY_NOTICES.md에 있습니다.
 
 ## 로고
 

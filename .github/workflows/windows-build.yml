@@ -53,20 +53,27 @@ jobs:
           import pefile
           from pathlib import Path
           from PIL import Image
-          path = 'dist/CitrusDrop/CitrusDrop.exe'
+          path = 'dist/CitrusDrop.exe'
           with pefile.PE(path) as pe:
               assert pe.OPTIONAL_HEADER.Subsystem == 2, 'EXE must use the Windows GUI subsystem'
               resource_types = {entry.id for entry in pe.DIRECTORY_ENTRY_RESOURCE.entries}
               assert {3, 14} <= resource_types, 'EXE must contain Windows icon resources'
           with Image.open('assets/icon.ico') as icon:
               assert {(16, 16), (32, 32), (48, 48), (256, 256)} <= icon.ico.sizes()
-          bundled = Path('dist/CitrusDrop/_internal')
-          for name in ('LICENSE', 'AUTHORS.md', 'THIRD_PARTY_NOTICES.md'):
-              assert (bundled / name).read_bytes() == Path(name).read_bytes(), f'Bundled notice mismatch: {name}'
-          assert not (bundled / 'LICENSE.txt').exists(), 'Legacy license file must not remain'
-      - name: Packaged EXE startup and conversion smoke test
+          from PyInstaller.archive.readers import CArchiveReader
+          archive = CArchiveReader(path)
+          members = {name.replace('\\', '/'): name for name in archive.toc}
+          for name in ('LICENSE', 'AUTHORS.md', 'THIRD_PARTY_NOTICES.md', 'assets/fonts/OFL.txt'):
+              assert archive.extract(members[name]) == Path(name).read_bytes(), f'Embedded notice mismatch: {name}'
+          for weight in ('Regular', 'SemiBold', 'Bold'):
+              assert f'assets/fonts/Pretendard-{weight}.otf' in members
+          assert 'LICENSE.txt' not in members, 'Legacy license file must not remain'
+      - name: Run isolated single EXE without companion files
         run: |
-          $app = Start-Process -FilePath 'dist/CitrusDrop/CitrusDrop.exe' -ArgumentList '--smoke-test' -PassThru
+          $isolated = Join-Path $env:RUNNER_TEMP 'Citrus Drop 단일 실행 검사'
+          New-Item -ItemType Directory -Path $isolated -Force | Out-Null
+          Copy-Item 'dist/CitrusDrop.exe' (Join-Path $isolated 'CitrusDrop.exe')
+          $app = Start-Process -FilePath (Join-Path $isolated 'CitrusDrop.exe') -WorkingDirectory $isolated -ArgumentList '--smoke-test' -PassThru
           if (-not $app.WaitForExit(60000)) {
             $app.Kill()
             throw 'EXE smoke test timed out'
@@ -75,10 +82,14 @@ jobs:
             Get-Content "$env:LOCALAPPDATA/CitrusDrop/startup-error.log" -ErrorAction SilentlyContinue
             throw "EXE smoke test failed: $($app.ExitCode)"
           }
-      - name: Upload portable application folder
+          $remaining = @(Get-ChildItem -Path $isolated -Force)
+          if ($remaining.Count -ne 1 -or $remaining[0].Name -ne 'CitrusDrop.exe') {
+            throw 'Single-file test left unexpected companion files'
+          }
+      - name: Upload single Windows executable
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: CitrusDrop-windows-x64
-          path: dist/CitrusDrop/
+          path: dist/CitrusDrop.exe
           if-no-files-found: error
           retention-days: 30

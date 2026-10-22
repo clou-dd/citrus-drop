@@ -21,7 +21,7 @@ if errorlevel 1 (
 )
 .venv\Scripts\python.exe -m PyInstaller --noconfirm CitrusDrop.spec
 set "build_result=%errorlevel%"
-if "%build_result%"=="0" echo Build complete: dist\CitrusDrop\CitrusDrop.exe
+if "%build_result%"=="0" echo Build complete: dist\CitrusDrop.exe
 if not "%build_result%"=="0" pause
 popd
 exit /b %build_result%

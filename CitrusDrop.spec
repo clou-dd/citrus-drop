@@ -1,4 +1,4 @@
-# Windows에서 build.cmd로 실행합니다. 한 폴더 형태로 Qt/PDFium DLL을 함께 배포합니다.
+# Windows에서 build.cmd로 실행합니다. Qt/PDFium·폰트를 EXE 하나에 포함합니다.
 from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, collect_submodules, copy_metadata
 
@@ -30,8 +30,7 @@ icon_path = base / "assets" / "icon.ico"
 if not icon_path.is_file():
     raise FileNotFoundError("Run tools/generate_icons.py before building CitrusDrop.spec")
 exe = EXE(
-    pyz, a.scripts, [],
-    exclude_binaries=True,
+    pyz, a.scripts, a.binaries, a.datas, [],
     name="CitrusDrop",
     debug=False,
     bootloader_ignore_signals=False,
@@ -40,4 +39,3 @@ exe = EXE(
     console=False,
     icon=str(icon_path),
 )
-coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="CitrusDrop")

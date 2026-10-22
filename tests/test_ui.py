@@ -5,7 +5,7 @@ import pytest
 
 from PySide6.QtCore import QMimeData, QPoint, QPointF, Qt, QUrl
 from PySide6.QtGui import QDragEnterEvent, QDropEvent
-from PySide6.QtWidgets import QMessageBox, QScrollArea
+from PySide6.QtWidgets import QDialog, QMessageBox, QPlainTextEdit, QScrollArea
 
 from citrus_drop.app import Controller
 from citrus_drop.models import available_operations
@@ -153,3 +153,20 @@ def test_quit_button_confirms_cancellation_before_exiting_busy_app(qt_app, tmp_p
         assert not shutdowns  # 실행 중인 작업이 끝나기 전에 종료하지 않습니다.
     finally:
         controller.dispose()
+
+
+def test_about_dialog_shows_licenses_from_bundle(qt_app, tmp_path, monkeypatch):
+    import citrus_drop.ui as ui
+    bundle = tmp_path / "extracted"
+    (bundle / "assets/fonts").mkdir(parents=True)
+    for name in ("LICENSE", "AUTHORS.md", "THIRD_PARTY_NOTICES.md", "assets/fonts/OFL.txt"):
+        (bundle / name).write_text(f"notice for {name}", encoding="utf-8")
+    monkeypatch.setattr(ui, "bundled_directory", lambda: bundle)
+    window = MainWindow(Settings(tmp_path / "settings"))
+    window.show()
+    window.about_button.click()
+    dialog = window.findChild(QDialog, "about_dialog")
+    assert dialog is not None and dialog.isVisible()
+    text = dialog.findChild(QPlainTextEdit).toPlainText()
+    assert "notice for LICENSE" in text and "notice for assets/fonts/OFL.txt" in text
+    dialog.close()

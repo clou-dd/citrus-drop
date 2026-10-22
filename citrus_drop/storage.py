@@ -19,6 +19,11 @@ def config_directory() -> Path:
     return (Path(base) if base else Path.home() / ".config") / "CitrusDrop"
 
 
+def bundled_directory() -> Path:
+    """소스 폴더 또는 단일 EXE가 실행 중에 푼 읽기 전용 리소스 폴더."""
+    return Path(getattr(sys, "_MEIPASS", app_directory()))
+
+
 @contextmanager
 def temporary_output(folder: Path):
     """원본과 같은 볼륨에 작업 공간을 만들고, 완료·실패·취소 후 정리합니다."""
